@@ -11,12 +11,12 @@ Tune any HF band to its FT8 frequency and you'll hear a strange chord: a few doz
 
 I wanted to know. And as usual, I wanted to build it myself in GNU Radio on my Windows laptop, so that every step is out in the open and I can look at it. No WSJT-X under the hood, no out-of-tree modules, no DLLs.
 
-My first version was a single Python block that did everything. It worked, but it was a black box with a nicer border. So I split it into six stages, one job each, connected by messages. That's this flowgraph, `ft8_rx_staged.grc`, and it decodes exactly as much as the single block did.
+I could have put the whole decoder in one big Python block. It would work, but it would be a black box with a nicer border. So I built it as six stages, one job each, connected by messages, so I can see what every stage hands to the next. That's this flowgraph, `ft8_rx.grc`.
 
 - **Part 1** explains what an FT8 signal is.
 - **Part 2** covers the front end, and why there's no FFT block in front of the decoder.
 - **Parts 3 to 8** follow one slot through the six stages.
-- **Part 9** asks whether splitting the decoder cost anything.
+- **Part 9** asks what splitting the decoder into stages costs.
 - **Part 10** is the war stories.
 
 **One honest note up front.** Everything I measured here comes from 22 real recorded FT8 slots (Results says where they come from), played into the flowgraph instead of my sound card. The next step is my own radio on the air, and I haven't done that yet. The flowgraph is built for it, and the sound-card path is the same three stock blocks every audio flowgraph uses, but I'm not going to claim on-air results I don't have.
@@ -35,8 +35,7 @@ As usual, a few DSP words show up (spectrogram, soft bit, LDPC, GFSK…). I expl
 
 The files:
 
-- **ft8_rx_staged.grc**: the flowgraph in this story (six stages).
-- **ft8_rx.grc**: the same decoder as one block, if you prefer it compact.
+- **ft8_rx.grc**: the flowgraph. It's self-contained: all six Python stages live inside it, and GRC writes them out when you generate.
 - **ft8_rx_explained.md**: the technical write-up.
 - **ft8_pe_\*.svg**: the eleven diagrams in this document. Keep them in the same folder.
 
@@ -105,7 +104,7 @@ Three stock blocks do all the signal handling:
 
 ### The FFT block I didn't add
 
-When the staged version was almost done, I wondered whether an FFT block between the filter and the decoder would make the flowgraph more transparent. It looked like it should: the first thing the decoder does is a spectrogram.
+When the flowgraph was almost done, I wondered whether an FFT block between the filter and the decoder would make the flowgraph more transparent. It looked like it should: the first thing the decoder does is a spectrogram.
 
 It doesn't work, for four reasons:
 
@@ -261,17 +260,17 @@ In GRC, the loop is just a message arrow from stage 6 back to stage 2. Message c
 
 ---
 
-## Part 9: did splitting it into six cost anything?
+## Part 9: what do six stages cost?
 
-This was the question I had before I started. Every arrow between stages is a message: a PMT dictionary carrying the slot's number, label and pass, plus whatever that stage produced (audio, candidate lists, soft bits, codewords). Passing 180,000 audio samples between blocks has a cost.
+This was the question I had before I started. Every arrow between stages is a message: a PMT dictionary carrying the slot's number, label and pass, plus whatever that stage produced (audio, candidate lists, soft bits, codewords). Passing 180,000 audio samples from block to block isn't free.
 
-I measured it on all 22 recordings:
+To find out how much it costs, I decoded all 22 recordings twice with the same decoding functions: once calling them back to back with no messages at all, and once through the six stages, passing real PMT messages between them as the flowgraph does:
 
-| | One block (`ft8_rx.grc`) | Six stages (`ft8_rx_staged.grc`) |
+| | Same code, no messages | Six stages, with messages |
 |---|---|---|
 | Messages decoded | 316 + 16 | **316 + 16, identical** |
 | Time per slot (Python alone) | 1.69 s | 1.78 s (+5 %) |
-| Time per slot (inside GNU Radio, displays running) | (not measured) | 1.6–2.0 s |
+| Time per slot (inside GNU Radio, displays running) | – | 1.6–2.0 s |
 
 Each audio hop costs about 15 ms, once I learned how to make the conversion fast (war story 5). A bonus I hadn't planned: GNU Radio gives every block's message handler its own thread, so stages of consecutive slots can overlap. And when I want to look inside, I connect a Message Debug block to any arrow. That's what "transparent" means to me.
 
@@ -305,7 +304,7 @@ Doing the same filtering through FFTs made it a matter of milliseconds. Later I 
 
 ### 5. 85 milliseconds to send one slot
 
-When I split the decoder into stages, my first measurement of a single message was alarming. Turning 180,000 samples from numpy into a PMT vector took **85 ms**. The general-purpose `pmt.to_pmt` took 46 ms. Handing the same samples over as a plain Python list took **7 ms**. Reading them back takes about 8 ms. With roughly three audio hops per pass, that's the difference between "costs nothing" and "costs half a second". Lesson: **measure the plumbing, not only the maths.**
+When I wired the stages together, my first measurement of a single message was alarming. Turning 180,000 samples from numpy into a PMT vector took **85 ms**. The general-purpose `pmt.to_pmt` took 46 ms. Handing the same samples over as a plain Python list took **7 ms**. Reading them back takes about 8 ms. With roughly three audio hops per pass, that's the difference between "costs nothing" and "costs half a second". Lesson: **measure the plumbing, not only the maths.**
 
 ### 6. A table column that ate the window
 
@@ -338,7 +337,7 @@ On 22 real slots (ft8_lib's test set: nine slots saved by WSJT-X in November 201
 | **DT** | same as WSJT-X to 0.1 s |
 | **Time** | about 1.8 s per slot with 3 passes (0.6 s with 1); 1.6–2.0 s inside GNU Radio with the displays running |
 | **Slot clock** | simulated 80 ppm sound card with uneven audio delivery: slot timing stays put (−20 ms fixed delay) instead of drifting 167 ms in 30 minutes |
-| **Staged vs one block** | identical decodes, +5 % time |
+| **Cost of the six stages** | about 15 ms per audio hop between stages; +5 % time against the same code run without messages |
 
 Where WSJT-X still wins: it has a few more tricks for the weakest signals. It can guess part of a message from what it expects (a-priori decoding), and it falls back to a heavier decoder (OSD) when belief propagation gives up. Those are worth its last 1 to 3 dB. For a flowgraph built from numpy and stock blocks, 90 % of WSJT-X makes me very happy.
 
@@ -348,7 +347,7 @@ Where WSJT-X still wins: it has a few more tricks for the weakest signals. It ca
 
 1. Connect the radio's speaker (or line/data output) to the laptop's Line In. Set the radio to USB, the filter to about 3 kHz, and turn **off** noise reduction, notch and narrow filters: they wreck FT8. Turn off Windows' "audio enhancements" and mic boost.
 2. Make sure your time-sync software has the PC clock on UTC.
-3. Open **ft8_rx_staged.grc** in GRC (GNU Radio 3.10, radioconda).
+3. Open **ft8_rx.grc** in GRC (GNU Radio 3.10, radioconda).
 4. Check the variables:
    - `f_min`, `f_max`: the audio range to search (200–3000 Hz).
    - `passes`: 3 for the most decodes, 1 for the fastest.
