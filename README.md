@@ -3,6 +3,7 @@
 *No dongle this time. Just my HF radio, a cable from its speaker to my laptop's sound card, and six small Python blocks in GNU Radio that take turns on every 15-second FT8 window. They pull out every station they can find, peel the loud ones away to hear the quiet ones underneath, and print the whole lot as a table. This is how each stage does its part, and the eight things that went wrong along the way.*
 
 ---
+![](ft8.png)
 
 ## Why I did this
 
