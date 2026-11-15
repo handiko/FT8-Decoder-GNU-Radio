@@ -1,0 +1,1792 @@
+options:
+  parameters:
+    author: ''
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: Multi-signal FT8 decoder from a sound card
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: ft8_rx
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: FT8 Multi-Signal Receiver (sound card)
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 8
+    - 8
+    rotation: 0
+    state: enabled
+blocks:
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: Sound-card rate. 48 kHz works on every Windows sound card.
+    value: '48000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 200
+    - 12
+    rotation: 0
+    state: enabled
+- name: ft8_rate
+  id: variable
+  parameters:
+    comment: Decoder rate (fixed by the FT8 decoder)
+    value: '12000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 320
+    - 12
+    rotation: 0
+    state: enabled
+- name: f_min
+  id: variable
+  parameters:
+    comment: Lowest audio frequency searched [Hz]
+    value: '200'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 440
+    - 12
+    rotation: 0
+    state: enabled
+- name: f_max
+  id: variable
+  parameters:
+    comment: Highest audio frequency searched [Hz]
+    value: '3000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 540
+    - 12
+    rotation: 0
+    state: enabled
+- name: passes
+  id: variable
+  parameters:
+    comment: 1 = single pass (fastest). 2-3 = subtract decoded signals and decode the residual again (more decodes).
+    value: '3'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 640
+    - 12
+    rotation: 0
+    state: enabled
+- name: pc_clock
+  id: variable
+  parameters:
+    comment: 'True: slots follow the PC clock (live sound card).
+
+      False: slots counted from the first sample (WSJT-X .wav test files).'
+    value: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 740
+    - 12
+    rotation: 0
+    state: enabled
+- name: wav_file
+  id: variable
+  parameters:
+    comment: WSJT-X saved slot (12 kHz mono) for the disabled test source
+    value: '"C:/Users/me/AppData/Local/WSJT-X/save/000000_000000.wav"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 860
+    - 12
+    rotation: 0
+    state: enabled
+- name: audio_source_0
+  id: audio_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Sound card input (radio SPK/line out -> Line In / Mic).
+
+      Device name blank = Windows default recording device.'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    device_name: ''''''
+    ok_to_block: 'True'
+    num_outputs: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 16
+    - 180
+    rotation: 0
+    state: enabled
+- name: lpf_dec4
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Anti-alias + decimate to 12 kS/s (FT8 lives in 200-3000 Hz)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: fir_filter_fff
+    decim: int(samp_rate // ft8_rate)
+    interp: '1'
+    gain: '1'
+    samp_rate: samp_rate
+    cutoff_freq: '4500'
+    width: '1000'
+    win: window.WIN_HAMMING
+    beta: '6.76'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 230
+    - 164
+    rotation: 0
+    state: enabled
+- name: ft8_clock
+  id: epy_block
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: '1. Slot clock: cuts the audio into 15 s UTC slots
+
+      (PC clock) and sends each slot as one message'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    _source_code: |
+      import numpy as np
+      import pmt
+      from gnuradio import gr
+
+      FS = 12000                      # decoder sample rate
+      NSPS = 1920                     # samples per FT8 symbol (0.16 s)
+      NN = 79                         # symbols per transmission
+      COSTAS = np.array([3, 1, 4, 0, 6, 5, 2])
+      GRAY = np.array([0, 1, 3, 2, 5, 6, 4, 7])          # 3 data bits -> tone
+      DATA_SYMS = np.r_[7:36, 43:72]
+      SYNC_SYMS = np.r_[0:7, 36:43, 72:79]
+
+
+      # ---- message helpers: every stage passes one PMT dict per slot and pass ----
+      def to_msg(d):
+          """Python dict -> PMT dict. numpy arrays become uniform vectors (fast path)."""
+          m = pmt.make_dict()
+          for k, v in d.items():
+              if isinstance(v, np.ndarray):
+                  a = v.ravel()
+                  if a.dtype == np.uint8:
+                      p = pmt.init_u8vector(len(a), a.tolist())
+                  elif a.dtype.kind == 'i':
+                      p = pmt.init_s32vector(len(a), a.astype(np.int32).tolist())
+                  elif a.dtype.kind == 'c':
+                      p = pmt.init_c32vector(len(a), a.astype(np.complex64).tolist())
+                  elif a.dtype == np.float64:
+                      p = pmt.init_f64vector(len(a), a.tolist())
+                  else:
+                      p = pmt.init_f32vector(len(a), a.astype(np.float32).tolist())
+              else:
+                  p = pmt.to_pmt(v)
+              m = pmt.dict_add(m, pmt.intern(k), p)
+          return m
+
+
+      def from_msg(m):
+          return pmt.to_python(m)
+
+
+      # ================================================================ Stage 1: slot clock
+      import sys
+      import time
+      import datetime
+
+      _SLOT = 15.0
+
+
+      class blk(gr.sync_block):
+          """FT8 Slot Clock: 12 kHz audio in -> one message per 15 s slot (the slot's audio).
+
+          pc_clock=True : slots follow the PC clock (UTC :00/:15/:30/:45); live sound card.
+          pc_clock=False: slots counted from the first sample (WSJT-X .wav test files).
+          decode_at     : seconds into the slot when the slot is sent (live mode).
+          clock_offset  : seconds added to the PC clock (sound-card latency), usually 0.
+          Output 'slot': {slot, label, pretty, pass=0, t0, audio[180000]}
+          """
+
+          def __init__(self, samp_rate=12000, decode_at=14.4, pc_clock=True, clock_offset=0.0):
+              gr.sync_block.__init__(self, name='FT8 Slot Clock', in_sig=[np.float32], out_sig=None)
+              self.message_port_register_out(pmt.intern('slot'))
+              if int(samp_rate) != FS:
+                  raise ValueError('FT8 Slot Clock needs 12000 S/s input')
+              self.decode_at = float(decode_at)
+              self.pc_clock = bool(pc_clock)
+              self.clock_offset = float(clock_offset)
+              self.buf = np.zeros(40 * FS, dtype=np.float32)        # ring buffer
+              self.n_total = 0
+              self.n_first = None
+              self.t_anchor = None                                    # PC time of sample n_anchor
+              self.n_anchor = 0
+              self.err_min = np.inf
+              self.last_slot = None
+
+          def work(self, input_items, output_items):
+              x = input_items[0]
+              n = len(x)
+              now = time.time() + self.clock_offset
+              L = len(self.buf)
+              i = self.n_total % L
+              if n >= L:
+                  self.buf[:] = x[-L:]
+              else:
+                  k = min(n, L - i)
+                  self.buf[i:i + k] = x[:k]
+                  self.buf[:n - k] = x[k:]
+              if self.n_first is None:
+                  self.n_first = self.n_total
+              self.n_total += n
+
+              if self.pc_clock:
+                  if self.t_anchor is None:
+                      self.t_anchor, self.n_anchor = now, self.n_total
+                  err = now - self._t_of(self.n_total)      # >= 0 apart from drift
+                  if abs(err) > 1.0:                         # lost samples / clock step: re-anchor
+                      self.t_anchor, self.n_anchor = now, self.n_total
+                      self.err_min = np.inf
+                      err = 0.0
+                  self.err_min = min(self.err_min, err)
+                  ts = np.floor((self._t_of(self.n_total) - self.decode_at) / _SLOT) * _SLOT
+                  if self.last_slot is None:
+                      self.last_slot = ts                    # never decode a slot we joined late
+                  elif ts > self.last_slot:
+                      self.last_slot = ts
+                      if np.isfinite(self.err_min):           # follow sound-card clock drift
+                          self.t_anchor += self.err_min
+                          self.err_min = np.inf
+                      n0 = self.n_anchor + int(round((ts - self.t_anchor) * FS))
+                      dtu = datetime.datetime.fromtimestamp(ts, datetime.timezone.utc)
+                      self._send(n0, ts, dtu.strftime('%H%M%S'), dtu.strftime('%Y-%m-%d %H:%M:%S UTC'))
+              else:
+                  k = self.n_total // (15 * FS)
+                  if self.last_slot is None:
+                      self.last_slot = -1
+                  if k - 1 > self.last_slot:
+                      self.last_slot = k - 1
+                      ts = self.last_slot * _SLOT
+                      lab = '%02d%02d%02d' % (ts // 3600 % 24, ts // 60 % 60, ts % 60)
+                      self._send(self.n_first + self.last_slot * 15 * FS, ts, lab, 'slot %s (file time)' % lab)
+              return n
+
+          def _t_of(self, nn):
+              return self.t_anchor + (nn - self.n_anchor) / float(FS)
+
+          def _send(self, n0, ts, label, pretty):
+              L = len(self.buf)
+              seg = np.zeros(15 * FS, dtype=np.float32)
+              lo = max(n0, self.n_total - L, self.n_first)
+              hi = min(n0 + 15 * FS, self.n_total)
+              if hi - lo < 13 * FS:                           # less than 13 s of this slot: skip
+                  return
+              seg[lo - n0:hi - n0] = self.buf[np.arange(lo, hi) % L]
+              self.message_port_pub(pmt.intern('slot'), to_msg(dict(
+                  slot=float(ts), label=label, pretty=pretty, **{'pass': 0}, t0=time.time(), audio=seg)))
+    samp_rate: ft8_rate
+    decode_at: '14.4'
+    pc_clock: pc_clock
+    clock_offset: '0.0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 520
+    - 330
+    rotation: 0
+    state: enabled
+- name: ft8_search
+  id: epy_block
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: '2. Costas sync search over the slot spectrogram
+
+      -> candidate (frequency, time) list'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    _source_code: |
+      import numpy as np
+      import pmt
+      from gnuradio import gr
+
+      FS = 12000                      # decoder sample rate
+      NSPS = 1920                     # samples per FT8 symbol (0.16 s)
+      NN = 79                         # symbols per transmission
+      COSTAS = np.array([3, 1, 4, 0, 6, 5, 2])
+      GRAY = np.array([0, 1, 3, 2, 5, 6, 4, 7])          # 3 data bits -> tone
+      DATA_SYMS = np.r_[7:36, 43:72]
+      SYNC_SYMS = np.r_[0:7, 36:43, 72:79]
+
+
+      # ---- message helpers: every stage passes one PMT dict per slot and pass ----
+      def to_msg(d):
+          """Python dict -> PMT dict. numpy arrays become uniform vectors (fast path)."""
+          m = pmt.make_dict()
+          for k, v in d.items():
+              if isinstance(v, np.ndarray):
+                  a = v.ravel()
+                  if a.dtype == np.uint8:
+                      p = pmt.init_u8vector(len(a), a.tolist())
+                  elif a.dtype.kind == 'i':
+                      p = pmt.init_s32vector(len(a), a.astype(np.int32).tolist())
+                  elif a.dtype.kind == 'c':
+                      p = pmt.init_c32vector(len(a), a.astype(np.complex64).tolist())
+                  elif a.dtype == np.float64:
+                      p = pmt.init_f64vector(len(a), a.tolist())
+                  else:
+                      p = pmt.init_f32vector(len(a), a.astype(np.float32).tolist())
+              else:
+                  p = pmt.to_pmt(v)
+              m = pmt.dict_add(m, pmt.intern(k), p)
+          return m
+
+
+      def from_msg(m):
+          return pmt.to_python(m)
+
+
+      # ---------------------------------------------------------------- DSP
+      _TSTEP = 480                    # spectrogram hop: 1/4 symbol (40 ms)
+      _NFFT1 = 3840                   # 1920 samples zero-padded -> 3.125 Hz bins
+      _JSTRT = 12                     # 0.5 s / 40 ms
+      _JZ = 62                        # lag search +-62 steps (+-2.48 s)
+      _MLAG = 10                      # "narrow" lag search +-0.4 s
+
+
+      def sync_search(x, fmin, fmax, syncmin=1.3, maxcand=300):
+          """Coarse Costas search. Returns list of (f0 Hz, xdt s, sync) and the baseline
+          (40th-percentile) spectrum power per 3.125 Hz bin."""
+          nhsym = len(x) // _TSTEP - 3
+          idx = np.arange(nhsym)[:, None] * _TSTEP + np.arange(NSPS)[None, :]
+          X = np.fft.rfft(x[idx], _NFFT1, axis=1)
+          s = (X.real ** 2 + X.imag ** 2).T                     # (1921 bins, nhsym)
+          df = FS / _NFFT1
+          ia = max(1, int(round(fmin / df)))
+          ib = min(int(round(fmax / df)), s.shape[0] - 15)
+          nf = ib - ia + 1
+          pad = np.zeros((s.shape[0], _JZ + nhsym + _JZ + 300))
+          pad[:, _JZ:_JZ + nhsym] = s
+          tones = np.stack([pad[ia + 2 * k: ia + 2 * k + nf] for k in range(7)])   # (7,nf,T)
+          t_g = np.zeros((3, nf, 2 * _JZ + 1))
+          t0_g = np.zeros((3, nf, 2 * _JZ + 1))
+          for g in range(3):
+              for n in range(7):
+                  m0 = _JSTRT + 4 * n + 144 * g                  # lag j=0 position
+                  sl = tones[:, :, m0: m0 + 2 * _JZ + 1]        # j = -JZ..JZ (pad offset JZ cancels)
+                  t_g[g] += sl[COSTAS[n]]
+                  t0_g[g] += sl.sum(axis=0)
+          eps = 1e-30
+          t = t_g.sum(0)
+          t0 = (t0_g.sum(0) - t) / 6.0
+          sync_abc = t / (t0 + eps)
+          tbc = t_g[1] + t_g[2]
+          t0bc = (t0_g[1] + t0_g[2] - tbc) / 6.0
+          sync_bc = tbc / (t0bc + eps)
+          sync2d = np.maximum(sync_abc, sync_bc)                 # (nf, 2JZ+1)
+          narrow = sync2d[:, _JZ - _MLAG: _JZ + _MLAG + 1]
+          jp1 = np.argmax(narrow, axis=1) - _MLAG
+          red1 = narrow.max(axis=1)
+          jp2 = np.argmax(sync2d, axis=1) - _JZ
+          red2 = sync2d.max(axis=1)
+          base1 = np.sort(red1)[int(round(0.40 * nf))]
+          base2 = np.sort(red2)[int(round(0.40 * nf))]
+          red1 = red1 / max(base1, eps)
+          red2 = red2 / max(base2, eps)
+          cand = []
+          for red, jp in ((red1, jp1), (red2, jp2)):
+              order = np.argsort(-red)[:maxcand]
+              for i in order:
+                  if red[i] < syncmin:
+                      break
+                  cand.append(((ia + i) * df, (jp[i] - 0.5) * (_TSTEP / FS), float(red[i])))
+          # remove near-duplicates (keep stronger)
+          cand.sort(key=lambda c: -c[2])
+          keep = []
+          for c in cand:
+              if all(abs(c[0] - k[0]) >= 4.0 or abs(c[1] - k[1]) >= 0.04 for k in keep):
+                  keep.append(c)
+              if len(keep) >= maxcand:
+                  break
+          # baseline noise spectrum (per 3.125 Hz bin), robust to signals
+          base_spec = np.percentile(s, 40, axis=1)
+          return keep, base_spec
+
+
+
+
+      # ================================================================ Stage 2 block
+      class blk(gr.basic_block):
+          """FT8 Sync Search: slot audio -> candidate list.
+
+          Builds a 3.125 Hz x 40 ms power spectrogram of the slot and scores the three
+          7x7 Costas sync arrays at every frequency and time lag (-2.5 .. +2.5 s).
+          Pass 0 audio comes from the Slot Clock; later passes are residual audio from
+          FT8 Subtract (same input port).
+          Output 'cand': input fields + f0[], xdt[], sync[], base[] (noise baseline per bin)
+          """
+
+          def __init__(self, f_min=200.0, f_max=3000.0, syncmin=1.2, maxcand=400):
+              gr.basic_block.__init__(self, name='FT8 Sync Search', in_sig=None, out_sig=None)
+              self.message_port_register_in(pmt.intern('slot'))
+              self.message_port_register_out(pmt.intern('cand'))
+              self.set_msg_handler(pmt.intern('slot'), self.handle)
+              self.f_min, self.f_max = float(f_min), float(f_max)
+              self.syncmin, self.maxcand = float(syncmin), int(maxcand)
+
+          def handle(self, m):
+              d = from_msg(m)
+              x = np.asarray(d['audio'], dtype=np.float64)
+              if d['pass'] == 0:
+                  x = x / (np.std(x) + 1e-12)               # unit power; residuals keep this scale
+              cands, base = sync_search(x, self.f_min, self.f_max, self.syncmin, self.maxcand) if np.any(x) else ([], np.zeros(1))
+              d['audio'] = x.astype(np.float32)
+              d['f0'] = np.array([c[0] for c in cands], dtype=np.float64)
+              d['xdt'] = np.array([c[1] for c in cands], dtype=np.float64)
+              d['sync'] = np.array([c[2] for c in cands], dtype=np.float64)
+              if 'base' not in d:                            # keep the pass-0 noise baseline for SNR
+                  d['base'] = base.astype(np.float64)
+              self.message_port_pub(pmt.intern('cand'), to_msg(d))
+    f_min: f_min
+    f_max: f_max
+    syncmin: '1.2'
+    maxcand: '400'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 780
+    - 330
+    rotation: 0
+    state: enabled
+- name: ft8_demod
+  id: epy_block
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: '3. Per candidate: shift to 0 Hz, decimate to 200 S/s,
+
+      fine sync, 8-tone amplitudes -> soft bits'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    _source_code: |
+      import numpy as np
+      import pmt
+      from gnuradio import gr
+
+      FS = 12000                      # decoder sample rate
+      NSPS = 1920                     # samples per FT8 symbol (0.16 s)
+      NN = 79                         # symbols per transmission
+      COSTAS = np.array([3, 1, 4, 0, 6, 5, 2])
+      GRAY = np.array([0, 1, 3, 2, 5, 6, 4, 7])          # 3 data bits -> tone
+      DATA_SYMS = np.r_[7:36, 43:72]
+      SYNC_SYMS = np.r_[0:7, 36:43, 72:79]
+
+
+      # ---- message helpers: every stage passes one PMT dict per slot and pass ----
+      def to_msg(d):
+          """Python dict -> PMT dict. numpy arrays become uniform vectors (fast path)."""
+          m = pmt.make_dict()
+          for k, v in d.items():
+              if isinstance(v, np.ndarray):
+                  a = v.ravel()
+                  if a.dtype == np.uint8:
+                      p = pmt.init_u8vector(len(a), a.tolist())
+                  elif a.dtype.kind == 'i':
+                      p = pmt.init_s32vector(len(a), a.astype(np.int32).tolist())
+                  elif a.dtype.kind == 'c':
+                      p = pmt.init_c32vector(len(a), a.astype(np.complex64).tolist())
+                  elif a.dtype == np.float64:
+                      p = pmt.init_f64vector(len(a), a.tolist())
+                  else:
+                      p = pmt.init_f32vector(len(a), a.astype(np.float32).tolist())
+              else:
+                  p = pmt.to_pmt(v)
+              m = pmt.dict_add(m, pmt.intern(k), p)
+          return m
+
+
+      def from_msg(m):
+          return pmt.to_python(m)
+
+
+      # ---------------------------------------------------------------- DSP
+      _FS2 = 200
+      _NFFT_BIG = 192000
+      _NFFT2 = 3200
+      _TAPER = 0.5 * (1.0 + np.cos(np.arange(101) * np.pi / 100.0))
+      _M32 = np.arange(32)
+      _CSYNC = np.exp(2j * np.pi * np.outer(COSTAS, _M32) / 32.0)
+      _SYNC_OFF = np.concatenate([32 * (np.arange(7) + 36 * g) for g in range(3)])
+      _SYNC_TONE = np.tile(COSTAS, 3)
+
+
+      class Downsampler:
+          """One big FFT of the slot; per call: band around f0 -> 200 S/s complex at 0 Hz."""
+
+          def __init__(self, x):
+              self.cx = np.fft.rfft(x, _NFFT_BIG)
+              self.df = FS / _NFFT_BIG
+
+          def __call__(self, f0):
+              df = self.df
+              i0 = int(round(f0 / df))
+              it = min(int(round((f0 + 8.5 * 6.25) / df)), _NFFT_BIG // 2)
+              ib = max(1, int(round((f0 - 1.5 * 6.25) / df)))
+              k = it - ib + 1
+              c1 = np.zeros(_NFFT2, dtype=complex)
+              c1[:k] = self.cx[ib:it + 1]
+              c1[:101] *= _TAPER[::-1]
+              c1[k - 101:k] *= _TAPER
+              c1 = np.roll(c1, -(i0 - ib))
+              return np.fft.ifft(c1) * (_NFFT2 / np.sqrt(_NFFT_BIG * _NFFT2))
+
+
+      def _sync_power(cdp, starts, ref):
+          """Coherent Costas correlation power for each start index (into padded cd)."""
+          idx = starts[:, None, None] + _SYNC_OFF[None, :, None] + _M32[None, None, :]
+          seg = cdp[idx]                                          # (P,21,32)
+          z = (seg * ref[None]).sum(axis=2)
+          return (z.real ** 2 + z.imag ** 2).sum(axis=1)
+
+
+      _PADL = 400                                                 # padding (samples @200 S/s)
+
+
+      def fine_sync(ds, f0, xdt):
+          """WSJT-X style refinement. Returns (f1, i_start, cd) with cd padded by _PADL."""
+          cd = ds(f0)
+          cdp = np.concatenate([np.zeros(_PADL, complex), cd, np.zeros(_PADL + 2600, complex)])
+          i0 = int(round((xdt + 0.5) * _FS2))
+          ref0 = np.conj(np.tile(_CSYNC, (3, 1)))                # (21,32)
+          starts = np.arange(i0 - 10, i0 + 11) + _PADL
+          starts = np.clip(starts, 0, len(cdp) - 1 - 32 * 79)
+          p = _sync_power(cdp, starts, ref0)
+          ibest = int(starts[np.argmax(p)]) - _PADL
+          best_f, best_p = 0.0, -1.0
+          tw_t = _M32 / _FS2
+          for delf in np.arange(-2.5, 2.51, 0.5):
+              ref = ref0 * np.exp(-2j * np.pi * delf * tw_t)[None, :]
+              pp = _sync_power(cdp, np.array([ibest + _PADL]), ref)[0]
+              if pp > best_p:
+                  best_p, best_f = pp, delf
+          f1 = f0 + best_f
+          cd = ds(f1)
+          cdp = np.concatenate([np.zeros(_PADL, complex), cd, np.zeros(_PADL + 2600, complex)])
+          starts = np.arange(ibest - 4, ibest + 5) + _PADL
+          starts = np.clip(starts, 0, len(cdp) - 1 - 32 * 79)
+          p = _sync_power(cdp, starts, ref0)
+          ibest = int(starts[np.argmax(p)]) - _PADL
+          return f1, ibest, cdp
+
+
+      def _bit_tables():
+          """For nsym=1,2,3: tone index tuples and bit masks for all 8**nsym hypotheses."""
+          tabs = {}
+          for nsym in (1, 2, 3):
+              nt = 8 ** nsym
+              i = np.arange(nt)
+              digs = [(i >> (3 * (nsym - 1 - d))) & 7 for d in range(nsym)]   # per symbol 3-bit value
+              tone = np.stack([GRAY[dg] for dg in digs])                       # (nsym, nt)
+              nb = 3 * nsym
+              one = np.stack([(i >> (nb - 1 - b)) & 1 for b in range(nb)]).astype(bool)  # (nb, nt) MSB first
+              tabs[nsym] = (tone, one)
+          return tabs
+
+
+      _BITTAB = _bit_tables()
+
+
+      def soft_metrics(cs):
+          """cs: (79,8) complex tone amplitudes -> (4,174) normalized LLRs.
+          Rows: 1-symbol, 2-symbol and 3-symbol coherent metrics, and the 1-symbol
+          metric normalized per bit (same four variants WSJT-X tries)."""
+          out = np.zeros((4, 174))
+          for nsym in (1, 2, 3):
+              tone, one = _BITTAB[nsym]
+              nb = 3 * nsym
+              for ihalf in range(2):
+                  k = np.arange(0, 29, nsym)
+                  ks = k + 7 + 36 * ihalf
+                  acc = np.zeros((len(ks), tone.shape[1]), dtype=complex)
+                  for d in range(nsym):
+                      kk = ks + d
+                      acc += np.where((kk < 79)[:, None], cs[np.minimum(kk, 78)][:, tone[d]], 0)
+                  s2 = np.abs(acc)[:, None, :]                       # (G,1,nt)
+                  m1 = np.where(one[None], s2, -1.0).max(axis=2)     # (G,nb)
+                  m0 = np.where(~one[None], s2, -1.0).max(axis=2)
+                  pos = (k * 3 + ihalf * 87)[:, None] + np.arange(nb)[None, :]
+                  ok = pos < 174
+                  out[nsym - 1, pos[ok]] = (m1 - m0)[ok]
+                  if nsym == 1:
+                      den = np.maximum(m1, m0)
+                      out[3, pos[ok]] = np.where(den > 0, (m1 - m0) / np.where(den > 0, den, 1), 0)[ok]
+          sd = out.std(axis=1, keepdims=True)
+          sd[sd == 0] = 1.0
+          return 2.83 * out / sd
+
+
+      def symbol_spectra(cdp, ibest):
+          idx = ibest + _PADL + 32 * np.arange(NN)[:, None] + _M32[None, :]
+          seg = cdp[idx]                                          # (79,32)
+          return np.fft.fft(seg, axis=1)[:, :8]                   # (79,8)
+
+
+      # ================================================================ Stage 3 block
+      class blk(gr.basic_block):
+          """FT8 Demodulator: candidates -> soft bits.
+
+          Per candidate: band-limit, shift to 0 Hz and decimate to 200 S/s (one FFT of the
+          whole slot, one small IFFT per candidate), fine time (+-50 ms) and frequency
+          (+-2.5 Hz) sync on the Costas arrays, 79 x 8 tone amplitudes, and four soft-bit
+          metrics (1-, 2-, 3-symbol coherent and normalized). Candidates whose sync tones are
+          mostly wrong (<= 6 of 21) are dropped.
+          Output 'llr'  : slot info + f1[], ib[], llr[N*4*174], cs[N*79*8], base[]
+          Output 'audio': slot, pass, audio (for FT8 Subtract)
+          """
+
+          def __init__(self):
+              gr.basic_block.__init__(self, name='FT8 Demodulator', in_sig=None, out_sig=None)
+              self.message_port_register_in(pmt.intern('cand'))
+              self.message_port_register_out(pmt.intern('llr'))
+              self.message_port_register_out(pmt.intern('audio'))
+              self.set_msg_handler(pmt.intern('cand'), self.handle)
+
+          def handle(self, m):
+              d = from_msg(m)
+              x = np.asarray(d['audio'], dtype=np.float64)
+              self.message_port_pub(pmt.intern('audio'), to_msg(dict(slot=d['slot'], **{'pass': d['pass']}, audio=d['audio'])))
+              f1s, ibs, llrs, css = [], [], [], []
+              if len(d['f0']):
+                  ds = Downsampler(x)
+                  for f0, xdt in zip(d['f0'], d['xdt']):
+                      f1, ib, cdp = fine_sync(ds, float(f0), float(xdt))
+                      cs = symbol_spectra(cdp, ib)
+                      hard = np.argmax(np.abs(cs), axis=1)
+                      if (hard[SYNC_SYMS] == _SYNC_TONE).sum() <= 6:
+                          continue
+                      f1s.append(f1)
+                      ibs.append(ib)
+                      llrs.append(soft_metrics(cs))
+                      css.append(cs)
+              out = {k: d[k] for k in ('slot', 'label', 'pretty', 'pass', 't0', 'base')}
+              out['f1'] = np.array(f1s, dtype=np.float64)
+              out['ib'] = np.array(ibs, dtype=np.int32)
+              out['llr'] = np.array(llrs, dtype=np.float32).reshape(-1)
+              out['cs'] = np.array(css, dtype=np.complex64).reshape(-1)
+              self.message_port_pub(pmt.intern('llr'), to_msg(out))
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1040
+    - 330
+    rotation: 0
+    state: enabled
+- name: ft8_ldpc
+  id: epy_block
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 4. LDPC(174,91) belief propagation + CRC-14
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    _source_code: |
+      import numpy as np
+      import pmt
+      from gnuradio import gr
+
+      FS = 12000                      # decoder sample rate
+      NSPS = 1920                     # samples per FT8 symbol (0.16 s)
+      NN = 79                         # symbols per transmission
+      COSTAS = np.array([3, 1, 4, 0, 6, 5, 2])
+      GRAY = np.array([0, 1, 3, 2, 5, 6, 4, 7])          # 3 data bits -> tone
+      DATA_SYMS = np.r_[7:36, 43:72]
+      SYNC_SYMS = np.r_[0:7, 36:43, 72:79]
+
+
+      # ---- message helpers: every stage passes one PMT dict per slot and pass ----
+      def to_msg(d):
+          """Python dict -> PMT dict. numpy arrays become uniform vectors (fast path)."""
+          m = pmt.make_dict()
+          for k, v in d.items():
+              if isinstance(v, np.ndarray):
+                  a = v.ravel()
+                  if a.dtype == np.uint8:
+                      p = pmt.init_u8vector(len(a), a.tolist())
+                  elif a.dtype.kind == 'i':
+                      p = pmt.init_s32vector(len(a), a.astype(np.int32).tolist())
+                  elif a.dtype.kind == 'c':
+                      p = pmt.init_c32vector(len(a), a.astype(np.complex64).tolist())
+                  elif a.dtype == np.float64:
+                      p = pmt.init_f64vector(len(a), a.tolist())
+                  else:
+                      p = pmt.init_f32vector(len(a), a.astype(np.float32).tolist())
+              else:
+                  p = pmt.to_pmt(v)
+              m = pmt.dict_add(m, pmt.intern(k), p)
+          return m
+
+
+      def from_msg(m):
+          return pmt.to_python(m)
+
+
+      # ---------------------------------------------------------------- LDPC(174,91) parity checks
+      _NM_TXT = (
+          '4,31,59,91,92,96,153;5,32,60,93,115,146;6,24,61,94,122,151;7,33,62,95,96,143;8,25,63,83,93,96,148;6,32,64,97,126,138;5,34,65,78,98,107,154;9,35,66,99,139,146;'
+          '10,36,67,100,107,126;11,37,67,87,101,139,158;12,38,68,102,105,155;13,39,69,103,149,162;8,40,70,82,104,114,145;14,41,71,88,102,123,156;15,42,59,106,123,159;1,33,72,106,107,157;'
+          '16,43,73,108,141,160;17,37,74,81,109,131,154;11,44,75,110,121,166;45,55,64,111,130,161,173;8,46,71,112,119,166;18,36,76,89,113,114,143;19,38,77,104,116,163;20,47,70,92,138,165;'
+          '2,48,74,113,128,160;21,45,78,83,117,121,151;22,47,58,118,127,164;16,39,62,112,134,158;23,43,79,120,131,145;19,35,59,73,110,125,161;20,36,63,94,136,161;14,31,79,98,132,164;'
+          '3,44,80,124,127,169;19,46,81,117,135,167;7,49,58,90,100,105,168;12,50,61,118,119,144;13,51,64,114,118,157;24,52,76,129,148,149;25,53,69,90,101,130,156;20,46,65,80,120,140,170;'
+          '21,54,77,100,140,171;35,82,133,142,171,174;14,30,83,113,125,170;4,29,68,120,134,173;1,4,52,57,86,136,152;26,51,56,91,122,137,168;52,84,110,115,145,168;7,50,81,99,132,173;'
+          '23,55,67,95,172,174;26,41,77,109,141,148;2,27,41,61,62,115,133;27,40,56,124,125,126;18,49,55,124,141,167;6,33,85,108,116,156;28,48,70,85,105,129,158;9,54,63,131,147,155;'
+          '22,53,68,109,121,174;3,13,48,78,95,123;31,69,133,150,155,169;12,43,66,89,97,135,159;5,39,75,102,136,167;2,54,86,101,135,164;15,56,87,108,119,171;10,44,82,91,111,144,149;'
+          '23,34,71,94,127,153;11,49,88,92,142,157;29,34,87,97,147,162;30,50,60,86,137,142,162;10,53,66,84,112,128,165;22,57,85,93,140,159;28,32,72,103,132,166;28,29,84,88,117,143,150;'
+          '1,26,45,80,128,147;17,27,89,103,116,153;51,57,98,163,165,172;21,37,73,138,152,169;16,47,76,130,137,154;3,24,30,72,104,139;9,40,90,106,134,151;15,58,60,74,111,150,163;'
+          '18,42,79,144,146,152;25,38,65,99,122,160;17,42,75,129,170,172'
+      )
+
+      _NM = [[int(v) - 1 for v in r.split(',')] for r in _NM_TXT.split(';')]
+
+      # Tanner graph as edge lists
+      _EC, _EV = [], []
+      for _c, _row in enumerate(_NM):
+          for _v in _row:
+              _EC.append(_c)
+              _EV.append(_v)
+      _EC = np.array(_EC)
+      _EV = np.array(_EV)
+      _NE = len(_EC)                                       # 522 edges
+      _CHK_E = np.full((83, 7), _NE)                       # edge ids per check, pad -> dummy edge
+      _VAR_E = np.zeros((174, 3), dtype=int)               # edge ids per variable (3 each)
+      _fill_c = np.zeros(83, dtype=int)
+      _fill_v = np.zeros(174, dtype=int)
+      for _e in range(_NE):
+          _c, _v = _EC[_e], _EV[_e]
+          _CHK_E[_c, _fill_c[_c]] = _e
+          _fill_c[_c] += 1
+          _VAR_E[_v, _fill_v[_v]] = _e
+          _fill_v[_v] += 1
+      _CHK_V = np.where(_CHK_E < _NE, _EV[np.minimum(_CHK_E, _NE - 1)], 174)  # var per check slot, pad -> 174
+
+
+      # ---------------------------------------------------------------- FEC: CRC-14, LDPC
+      def crc14(bits):
+          """CRC-14 (poly 0x2757) of rows of bits, shape (B, n) -> (B,) ints."""
+          bits = np.atleast_2d(bits).astype(np.int64)
+          reg = np.zeros(bits.shape[0], dtype=np.int64)
+          for k in range(bits.shape[1]):
+              reg ^= bits[:, k] << 13
+              top = (reg >> 13) & 1
+              reg = ((reg << 1) ^ (top * 0x2757)) & 0x3FFF
+          return reg
+
+
+      def crc_ok(a91):
+          """a91: (B, 91) bits = 77 payload + 14 CRC. Valid and not all-zero."""
+          msg = np.concatenate([a91[:, :77], np.zeros((a91.shape[0], 5), dtype=a91.dtype)], axis=1)
+          rx = np.zeros(a91.shape[0], dtype=np.int64)
+          for k in range(14):
+              rx = (rx << 1) | a91[:, 77 + k].astype(np.int64)
+          return (crc14(msg) == rx) & (a91[:, :77].sum(axis=1) > 0)
+
+
+      def ldpc_bp(llr, max_iter=30):
+          """Sum-product BP. llr: (B,174), positive = bit 1.
+          Returns (bits (B,174) uint8, ok (B,) bool: all parity checks satisfied)."""
+          B = llr.shape[0]
+          L = -np.asarray(llr, dtype=np.float64)           # work with log(P0/P1)
+          m_cv = np.zeros((B, _NE + 1))                    # +1: dummy edge
+          bits = np.zeros((B, 174), dtype=np.uint8)
+          done = np.zeros(B, dtype=bool)
+          out = np.zeros((B, 174), dtype=np.uint8)
+          for _ in range(max_iter):
+              tot = L + m_cv[:, _VAR_E].sum(axis=2)        # (B,174)
+              bits = (tot < 0).astype(np.uint8)
+              syn = bits[:, np.minimum(_CHK_V, 173)] * (_CHK_V < 174)
+              ok = (syn.sum(axis=2) % 2 == 0).all(axis=1)
+              newly = ok & ~done
+              out[newly] = bits[newly]
+              done |= ok
+              if done.all():
+                  break
+              m_vc = tot[:, _EV] - m_cv[:, :_NE]           # (B,E)
+              t = np.tanh(np.clip(m_vc, -40, 40) / 2.0)
+              t = np.concatenate([t, np.ones((B, 1))], axis=1)
+              tc = t[:, _CHK_E]                            # (B,83,7)
+              sgn = np.where(tc < 0, -1.0, 1.0)
+              la = np.log(np.maximum(np.abs(tc), 1e-30))
+              prod_l = la.sum(axis=2, keepdims=True) - la
+              prod_s = sgn.prod(axis=2, keepdims=True) * sgn
+              v = np.clip(prod_s * np.exp(prod_l), -0.999999, 0.999999)
+              msg = 2.0 * np.arctanh(v)
+              m_new = np.zeros((B, _NE + 1))
+              m_new[:, _CHK_E.ravel()] = msg.reshape(B, -1)
+              m_new[:, _NE] = 0.0
+              m_cv = m_new
+          out[~done] = bits[~done]
+          return out, done
+
+
+      # ================================================================ Stage 4 block
+      class blk(gr.basic_block):
+          """FT8 LDPC + CRC: soft bits -> codewords.
+
+          Sum-product belief propagation on the (174,91) LDPC code for every candidate and
+          all four soft-bit metrics at once (one numpy batch). A candidate is accepted when
+          the parity checks are met, the CRC-14 matches, the payload is not all-zero and at
+          most 36 hard-decision bits were corrected; the first metric that passes is used.
+          Output 'cw': slot info + cw[K*174], f1[], ib[], cs[K*79*8], base[]
+          """
+
+          def __init__(self, max_iter=40):
+              gr.basic_block.__init__(self, name='FT8 LDPC + CRC', in_sig=None, out_sig=None)
+              self.message_port_register_in(pmt.intern('llr'))
+              self.message_port_register_out(pmt.intern('cw'))
+              self.set_msg_handler(pmt.intern('llr'), self.handle)
+              self.max_iter = int(max_iter)
+
+          def handle(self, m):
+              d = from_msg(m)
+              n = len(d['f1'])
+              keep, cws = [], []
+              if n:
+                  LL = np.asarray(d['llr'], dtype=np.float64).reshape(n * 4, 174)
+                  bits, ok = ldpc_bp(LL, self.max_iter)
+                  good = ok & crc_ok(bits[:, :91])
+                  good &= ((LL > 0).astype(np.uint8) != bits).sum(axis=1) <= 36
+                  for c in range(n):
+                      rows = [4 * c + p for p in range(4) if good[4 * c + p]]
+                      if rows:
+                          keep.append(c)
+                          cws.append(bits[rows[0]])
+              cs = np.asarray(d['cs']).reshape(n, NN, 8) if n else np.zeros((0, NN, 8), np.complex64)
+              out = {k: d[k] for k in ('slot', 'label', 'pretty', 'pass', 't0', 'base')}
+              out['cw'] = np.array(cws, dtype=np.uint8).reshape(-1)
+              out['f1'] = np.asarray(d['f1'])[keep].astype(np.float64)
+              out['ib'] = np.asarray(d['ib'])[keep].astype(np.int32)
+              out['cs'] = cs[keep].reshape(-1)
+              self.message_port_pub(pmt.intern('cw'), to_msg(out))
+    max_iter: '40'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1270
+    - 330
+    rotation: 0
+    state: enabled
+- name: ft8_report
+  id: epy_block
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: '5. Unpack 77-bit messages, SNR/DT/Freq, table output.
+
+      Decides whether another pass is needed.'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    _source_code: |
+      import numpy as np
+      import pmt
+      from gnuradio import gr
+
+      FS = 12000                      # decoder sample rate
+      NSPS = 1920                     # samples per FT8 symbol (0.16 s)
+      NN = 79                         # symbols per transmission
+      COSTAS = np.array([3, 1, 4, 0, 6, 5, 2])
+      GRAY = np.array([0, 1, 3, 2, 5, 6, 4, 7])          # 3 data bits -> tone
+      DATA_SYMS = np.r_[7:36, 43:72]
+      SYNC_SYMS = np.r_[0:7, 36:43, 72:79]
+
+
+      # ---- message helpers: every stage passes one PMT dict per slot and pass ----
+      def to_msg(d):
+          """Python dict -> PMT dict. numpy arrays become uniform vectors (fast path)."""
+          m = pmt.make_dict()
+          for k, v in d.items():
+              if isinstance(v, np.ndarray):
+                  a = v.ravel()
+                  if a.dtype == np.uint8:
+                      p = pmt.init_u8vector(len(a), a.tolist())
+                  elif a.dtype.kind == 'i':
+                      p = pmt.init_s32vector(len(a), a.astype(np.int32).tolist())
+                  elif a.dtype.kind == 'c':
+                      p = pmt.init_c32vector(len(a), a.astype(np.complex64).tolist())
+                  elif a.dtype == np.float64:
+                      p = pmt.init_f64vector(len(a), a.tolist())
+                  else:
+                      p = pmt.init_f32vector(len(a), a.astype(np.float32).tolist())
+              else:
+                  p = pmt.to_pmt(v)
+              m = pmt.dict_add(m, pmt.intern(k), p)
+          return m
+
+
+      def from_msg(m):
+          return pmt.to_python(m)
+
+
+      # ---------------------------------------------------------------- 77-bit message unpack
+      _A37 = ' 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      _A36 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      _A27 = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      _A38 = ' 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ/'
+      _A42 = ' 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+-./?'
+      _NTOKENS = 2063592
+      _MAX22 = 4194304
+      _MAXGRID4 = 32400
+      _CSEC = ('AB AK AL AR AZ BC CO CT DE EB EMA ENY EPA EWA GA GTA IA ID IL IN KS KY LA LAX MAR MB MDC '
+               'ME MI MN MO MS MT NC ND NE NFL NH NL NLI NM NNJ NNY NT NTX NV OH OK ONE ONN ONS OR ORG PAC '
+               'PR QC RI SB SC SCV SD SDG SF SFL SJV SK SNJ STX SV TN UT VA VI VT WCF WI WMA WNY WPA WTX '
+               'WV WWA WY DX').split()
+      _CMULT = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ '
+                'NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY NB NS QC ON MB SK AB BC NWT NF '
+                'LB NU YT PEI DC').split()
+
+
+      class CallHash:
+          """Callsigns heard so far, keyed by their 22/12/10-bit hashes (for <...> fields)."""
+
+          def __init__(self, max_entries=2000):
+              self.h22, self.h12, self.h10 = {}, {}, {}
+              self.max_entries = max_entries
+
+          @staticmethod
+          def hash22(call):
+              n = 0
+              c = (call + ' ' * 11)[:11]
+              for ch in c:
+                  j = _A38.find(ch)
+                  if j < 0:
+                      return None
+                  n = 38 * n + j
+              return (((47055833459 * n) & 0xFFFFFFFFFFFFFFFF) >> 42) & 0x3FFFFF
+
+          def save(self, call):
+              call = call.strip()
+              if len(call) < 3 or call.startswith('<'):
+                  return
+              h = self.hash22(call)
+              if h is None:
+                  return
+              if len(self.h22) > self.max_entries:
+                  self.h22.clear(); self.h12.clear(); self.h10.clear()
+              self.h22[h] = call
+              self.h12[h >> 10] = call
+              self.h10[h >> 12] = call
+
+          def lookup(self, h, nbits):
+              d = {22: self.h22, 12: self.h12, 10: self.h10}[nbits]
+              c = d.get(h)
+              return '<%s>' % c if c else '<...>'
+
+
+      def _bits_to_int(b):
+          v = 0
+          for x in b:
+              v = (v << 1) | int(x)
+          return v
+
+
+      def _unpack28(n28, ip, i3, hashes):
+          if n28 < _NTOKENS:
+              if n28 == 0:
+                  return 'DE'
+              if n28 == 1:
+                  return 'QRZ'
+              if n28 == 2:
+                  return 'CQ'
+              if n28 <= 1002:
+                  return 'CQ %03d' % (n28 - 3)
+              if n28 <= 532443:
+                  n = n28 - 1003
+                  s = ''
+                  for _ in range(4):
+                      s = _A27[n % 27] + s
+                      n //= 27
+                  return 'CQ ' + s.strip()
+              return None
+          n28 -= _NTOKENS
+          if n28 < _MAX22:
+              return hashes.lookup(n28, 22)
+          n = n28 - _MAX22
+          c = [''] * 6
+          c[5] = _A27[n % 27]; n //= 27
+          c[4] = _A27[n % 27]; n //= 27
+          c[3] = _A27[n % 27]; n //= 27
+          c[2] = '0123456789'[n % 10]; n //= 10
+          c[1] = _A36[n % 36]; n //= 36
+          if n >= 37:
+              return None
+          c[0] = _A37[n]
+          call = ''.join(c)
+          if call.startswith('3D0') and call[3] != ' ':
+              call = '3DA0' + call[3:].strip()
+          elif call[0] == 'Q' and call[1].isalpha():
+              call = '3X' + call[1:].strip()
+          call = call.strip()
+          if len(call) < 3 or ' ' in call:
+              return None
+          hashes.save(call)
+          if ip:
+              if i3 == 1:
+                  call += '/R'
+              elif i3 == 2:
+                  call += '/P'
+              else:
+                  return None
+              hashes.save(call)
+          return call
+
+
+      def _grid_or_report(igrid4, ir):
+          if igrid4 <= _MAXGRID4:
+              n = igrid4
+              d3 = n % 10; n //= 10
+              d2 = n % 10; n //= 10
+              l1 = n % 18; n //= 18
+              l0 = n % 18
+              g = chr(65 + l0) + chr(65 + l1) + str(d2) + str(d3)
+              return ('R ' + g) if ir else g
+          irpt = igrid4 - _MAXGRID4
+          if irpt == 1:
+              return ''
+          if irpt == 2:
+              return 'RRR'
+          if irpt == 3:
+              return 'RR73'
+          if irpt == 4:
+              return '73'
+          r = '%+03d' % (irpt - 35)
+          return ('R' + r) if ir else r
+
+
+      def unpack77(b, hashes):
+          """b: 77 bits (array of 0/1). Returns message text or None (unsupported/invalid)."""
+          b = [int(x) for x in b]
+          i3 = _bits_to_int(b[74:77])
+          n3 = _bits_to_int(b[71:74])
+          if i3 in (1, 2):
+              c1 = _unpack28(_bits_to_int(b[0:28]), b[28], i3, hashes)
+              c2 = _unpack28(_bits_to_int(b[29:57]), b[57], i3, hashes)
+              if c1 is None or c2 is None:
+                  return None
+              ex = _grid_or_report(_bits_to_int(b[59:74]), b[58])
+              if c1.startswith('CQ') and ex.startswith('R'):
+                  return None                      # implausible: CQ with R/report
+              return ' '.join(x for x in (c1, c2, ex) if x)
+          if i3 == 4:
+              n12 = _bits_to_int(b[0:12])
+              n58 = _bits_to_int(b[12:70])
+              iflip, nrpt, icq = b[70], _bits_to_int(b[71:73]), b[73]
+              s = ''
+              for _ in range(11):
+                  s = _A38[n58 % 38] + s
+                  n58 //= 38
+              full = s.strip()
+              if len(full) < 3 or ' ' in full:
+                  return None
+              hashes.save(full)
+              hc = hashes.lookup(n12, 12)
+              if icq:
+                  return 'CQ ' + full
+              c1, c2 = (full, hc) if iflip else (hc, full)
+              ex = ('', 'RRR', 'RR73', '73')[nrpt]
+              return ' '.join(x for x in (c1, c2, ex) if x)
+          if i3 == 3:
+              tu = b[0]
+              c1 = _unpack28(_bits_to_int(b[1:29]), 0, 3, hashes)
+              c2 = _unpack28(_bits_to_int(b[29:57]), 0, 3, hashes)
+              if c1 is None or c2 is None:
+                  return None
+              r = b[57]
+              rst = '5%d9' % (_bits_to_int(b[58:61]) + 2)
+              s13 = _bits_to_int(b[61:74])
+              if s13 > 8000:
+                  if s13 - 8001 >= len(_CMULT):
+                      return None
+                  ex = _CMULT[s13 - 8001]
+              else:
+                  ex = '%04d' % s13
+              parts = (['TU;'] if tu else []) + [c1, c2] + (['R'] if r else []) + [rst, ex]
+              return ' '.join(parts)
+          if i3 == 5:
+              h12 = _bits_to_int(b[0:12])
+              h22 = _bits_to_int(b[12:34])
+              r = b[34]
+              rst = '5%d9' % (_bits_to_int(b[35:38]) + 2)
+              serial = _bits_to_int(b[38:49])
+              n = _bits_to_int(b[49:74])
+              d = [18 * 10 * 10 * 24 * 24, 10 * 10 * 24 * 24, 10 * 24 * 24, 24 * 24, 24, 1]
+              j = []
+              for dv in d:
+                  j.append(n // dv)
+                  n -= j[-1] * dv
+              if j[0] > 17 or j[1] > 17 or j[4] > 23 or j[5] > 23:
+                  return None
+              g6 = chr(65 + j[0]) + chr(65 + j[1]) + str(j[2]) + str(j[3]) + chr(65 + j[4]) + chr(65 + j[5])
+              return '%s %s %s%s%04d %s' % (hashes.lookup(h12, 12), hashes.lookup(h22, 22),
+                                             'R ' if r else '', rst, serial, g6)
+          if i3 == 0:
+              if n3 == 0:                          # free text
+                  n = _bits_to_int(b[0:71])
+                  s = ''
+                  for _ in range(13):
+                      s = _A42[n % 42] + s
+                      n //= 42
+                  s = s.strip()
+                  return s if s else None
+              if n3 == 1:                          # DXpedition
+                  c1 = _unpack28(_bits_to_int(b[0:28]), 0, 0, hashes)
+                  c2 = _unpack28(_bits_to_int(b[28:56]), 0, 0, hashes)
+                  if c1 is None or c2 is None:
+                      return None
+                  h10 = _bits_to_int(b[56:66])
+                  rpt = 2 * _bits_to_int(b[66:71]) - 30
+                  return '%s RR73; %s %s %+03d' % (c1, c2, hashes.lookup(h10, 10), rpt)
+              if n3 in (3, 4):                     # ARRL Field Day
+                  c1 = _unpack28(_bits_to_int(b[0:28]), 0, 0, hashes)
+                  c2 = _unpack28(_bits_to_int(b[28:56]), 0, 0, hashes)
+                  if c1 is None or c2 is None:
+                      return None
+                  r = b[56]
+                  ntx = _bits_to_int(b[57:61]) + (1 if n3 == 3 else 17)
+                  cls = chr(65 + _bits_to_int(b[61:64]))
+                  isec = _bits_to_int(b[64:71])
+                  if isec < 1 or isec > len(_CSEC):
+                      return None
+                  return ' '.join([c1, c2] + (['R'] if r else []) + ['%d%s' % (ntx, cls), _CSEC[isec - 1]])
+              if n3 == 5:                          # telemetry
+                  v = _bits_to_int(b[0:71])
+                  return ('%018X' % v).lstrip('0') or '0'
+          return None
+
+
+      # ================================================================ Stage 5 block
+      import sys
+      import time
+
+
+      def tones_from_cw(cw):
+          """174-bit codeword -> 79 channel tones (Costas + Gray-mapped data)."""
+          cw = np.asarray(cw, dtype=int)
+          t = np.zeros(NN, dtype=int)
+          t[SYNC_SYMS] = np.tile(COSTAS, 3)
+          t[DATA_SYMS] = GRAY[cw[0::3] * 4 + cw[1::3] * 2 + cw[2::3]]
+          return t
+
+
+      class blk(gr.basic_block):
+          """FT8 Unpack + Report: codewords -> messages, table, and the subtraction loop.
+
+          Unpacks each new 77-bit payload (duplicates from earlier passes are ignored),
+          measures SNR (2500 Hz reference), DT and frequency, and keeps the slot's list.
+          If more passes are allowed and this pass found something new, the new decodes go
+          to FT8 Subtract ('new'), which sends the residual back to the Sync Search.
+          Otherwise the slot is finished: WSJT-X style table on the console and in the
+          QT window (Python Snippet calls make_widget()), one PMT dict per decode on 'decodes'.
+          """
+
+          def __init__(self, passes=3, console=True):
+              gr.basic_block.__init__(self, name='FT8 Unpack + Report', in_sig=None, out_sig=None)
+              self.message_port_register_in(pmt.intern('cw'))
+              self.message_port_register_out(pmt.intern('new'))
+              self.message_port_register_out(pmt.intern('decodes'))
+              self.set_msg_handler(pmt.intern('cw'), self.handle)
+              self.passes = max(1, int(passes))
+              self.console = bool(console)
+              self.hashes = CallHash()
+              self.slots = {}
+              self._bridge = None
+              self._header_done = False
+
+          def make_widget(self):
+              """Create the decode table. Call from the GUI thread (Python Snippet, Main - After Init)."""
+              from PyQt5 import QtCore, QtGui, QtWidgets
+
+              class _Bridge(QtCore.QObject):
+                  slot_done = QtCore.pyqtSignal(object)
+
+              w = QtWidgets.QWidget()
+              lay = QtWidgets.QVBoxLayout(w)
+              lay.setContentsMargins(0, 0, 0, 0)
+              top = QtWidgets.QHBoxLayout()
+              status = QtWidgets.QLabel('Waiting for the first FT8 slot ...')
+              clear = QtWidgets.QPushButton('Clear')
+              top.addWidget(status, 1)
+              top.addWidget(clear)
+              lay.addLayout(top)
+              tbl = QtWidgets.QTableWidget(0, 5)
+              tbl.setHorizontalHeaderLabels(['UTC', 'dB', 'DT', 'Freq', 'Message'])
+              tbl.verticalHeader().setVisible(False)
+              tbl.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+              tbl.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+              font = QtGui.QFont('Consolas')
+              font.setStyleHint(QtGui.QFont.Monospace)
+              tbl.setFont(font)
+              hh = tbl.horizontalHeader()
+              fm = QtGui.QFontMetrics(font)
+              for c, sample in enumerate(('000000', '-24', '-1.5', '0000')):
+                  hh.setSectionResizeMode(c, QtWidgets.QHeaderView.Interactive)
+                  tbl.setColumnWidth(c, fm.width(sample) + 18)
+              hh.setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
+              tbl.verticalHeader().setDefaultSectionSize(fm.height() + 4)
+              lay.addWidget(tbl)
+              w.setMinimumWidth(460)
+              clear.clicked.connect(lambda: tbl.setRowCount(0))
+              cq_bg = QtGui.QBrush(QtGui.QColor(200, 255, 200))
+              sep_bg = QtGui.QBrush(QtGui.QColor(225, 225, 225))
+
+              def on_slot(info):
+                  sb = tbl.verticalScrollBar()
+                  at_bottom = sb.value() >= sb.maximum() - 2
+                  r = tbl.rowCount()
+                  tbl.insertRow(r)
+                  it = QtWidgets.QTableWidgetItem('---- %s  %d decodes  (%.1f s)' % (info['label'], len(info['rows']), info['secs']))
+                  it.setBackground(sep_bg)
+                  tbl.setItem(r, 0, it)
+                  tbl.setSpan(r, 0, 1, 5)
+                  for d in info['rows']:
+                      r = tbl.rowCount()
+                      tbl.insertRow(r)
+                      vals = (info['utc'], '%d' % d['snr'], '%.1f' % d['dt'], '%d' % round(d['freq']), d['msg'])
+                      for c, v in enumerate(vals):
+                          item = QtWidgets.QTableWidgetItem(v)
+                          if c < 4:
+                              item.setTextAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+                          if d['msg'].startswith('CQ '):
+                              item.setBackground(cq_bg)
+                          tbl.setItem(r, c, item)
+                  excess = tbl.rowCount() - 3000
+                  for _ in range(max(0, excess)):
+                      tbl.removeRow(0)
+                  if at_bottom:
+                      tbl.scrollToBottom()
+                  status.setText(info['status'])
+
+              self._bridge = _Bridge()
+              self._bridge.slot_done.connect(on_slot)
+              return w
+
+          def handle(self, m):
+              d = from_msg(m)
+              key = d['slot']
+              st = self.slots.setdefault(key, {'seen': set(), 'rows': []})
+              k = len(d['f1'])
+              cw = np.asarray(d['cw']).reshape(k, 174) if k else np.zeros((0, 174), np.uint8)
+              cs = np.asarray(d['cs']).reshape(k, NN, 8) if k else None
+              base = np.asarray(d['base'])
+              new = []
+              for c in range(k):
+                  a77 = cw[c, :77].astype(np.uint8)
+                  kk = a77.tobytes()
+                  if kk in st['seen']:
+                      continue
+                  msg = unpack77(a77, self.hashes)
+                  if msg is None:
+                      continue
+                  st['seen'].add(kk)
+                  f1 = float(d['f1'][c])
+                  tones = tones_from_cw(cw[c])
+                  sig_p = (np.abs(cs[c][np.arange(NN), tones]) ** 2).mean()
+                  i0 = max(0, int((f1 - 300.0) / 3.125))
+                  i1 = min(len(base), max(i0 + 2, int((f1 + 350.0) / 3.125)))
+                  noise_cs = 32.0 * (np.percentile(base[i0:i1], 20) / 0.513) / NSPS
+                  arg = sig_p / max(noise_cs, 1e-30) - 1.0
+                  snr = 10.0 * np.log10(max(arg, 1e-3)) - 28.3
+                  new.append(dict(snr=int(round(max(snr, -24.0))), dt=d['ib'][c] / 200.0 - 0.5,
+                                  freq=f1, msg=msg, tones=tones))
+              st['rows'] += new
+              if new and d['pass'] + 1 < self.passes:
+                  self.message_port_pub(pmt.intern('new'), to_msg(dict(
+                      slot=d['slot'], label=d['label'], pretty=d['pretty'], **{'pass': d['pass']}, t0=d['t0'],
+                      base=base, tones=np.array([r['tones'] for r in new], dtype=np.uint8).reshape(-1),
+                      f1=np.array([r['freq'] for r in new], dtype=np.float64),
+                      tstart=np.array([r['dt'] + 0.5 for r in new], dtype=np.float64))))
+                  return
+              self._finish(d, self.slots.pop(key)['rows'])
+
+          def _finish(self, d, rows):
+              rows.sort(key=lambda r: r['freq'])
+              secs = time.time() - d['t0']
+              utc, pretty = d['label'], d['pretty']
+              if self.console:
+                  out = []
+                  if not self._header_done:
+                      out.append('UTC     dB   DT  Freq  Message')
+                      self._header_done = True
+                  out.append('------ %s : %d decodes (%.1f s, %d pass%s) ------'
+                             % (pretty, len(rows), secs, d['pass'] + 1, '' if d['pass'] == 0 else 'es'))
+                  for r in rows:
+                      out.append('%s %3d %4.1f %5d ~  %s' % (utc, r['snr'], r['dt'], round(r['freq']), r['msg']))
+                  sys.stdout.write('\n'.join(out) + '\n')
+                  sys.stdout.flush()
+              for r in rows:
+                  meta = pmt.make_dict()
+                  meta = pmt.dict_add(meta, pmt.intern('utc'), pmt.intern(utc))
+                  meta = pmt.dict_add(meta, pmt.intern('snr'), pmt.from_long(int(r['snr'])))
+                  meta = pmt.dict_add(meta, pmt.intern('dt'), pmt.from_double(float(r['dt'])))
+                  meta = pmt.dict_add(meta, pmt.intern('freq'), pmt.from_double(float(r['freq'])))
+                  meta = pmt.dict_add(meta, pmt.intern('msg'), pmt.intern(r['msg']))
+                  self.message_port_pub(pmt.intern('decodes'), meta)
+              if self._bridge is not None:
+                  status = 'Last slot %s: %d decodes, %.1f s, %d pass%s' % (
+                      pretty, len(rows), secs, d['pass'] + 1, '' if d['pass'] == 0 else 'es')
+                  self._bridge.slot_done.emit(dict(label=pretty, utc=utc, rows=rows, secs=secs, status=status))
+    passes: passes
+    console: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1490
+    - 330
+    rotation: 0
+    state: enabled
+- name: ft8_subtract
+  id: epy_block
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: '6. Subtract decoded signals; the residual goes back
+
+      to the sync search (passes 2 and 3)'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    _source_code: |
+      import numpy as np
+      import pmt
+      from gnuradio import gr
+
+      FS = 12000                      # decoder sample rate
+      NSPS = 1920                     # samples per FT8 symbol (0.16 s)
+      NN = 79                         # symbols per transmission
+      COSTAS = np.array([3, 1, 4, 0, 6, 5, 2])
+      GRAY = np.array([0, 1, 3, 2, 5, 6, 4, 7])          # 3 data bits -> tone
+      DATA_SYMS = np.r_[7:36, 43:72]
+      SYNC_SYMS = np.r_[0:7, 36:43, 72:79]
+
+
+      # ---- message helpers: every stage passes one PMT dict per slot and pass ----
+      def to_msg(d):
+          """Python dict -> PMT dict. numpy arrays become uniform vectors (fast path)."""
+          m = pmt.make_dict()
+          for k, v in d.items():
+              if isinstance(v, np.ndarray):
+                  a = v.ravel()
+                  if a.dtype == np.uint8:
+                      p = pmt.init_u8vector(len(a), a.tolist())
+                  elif a.dtype.kind == 'i':
+                      p = pmt.init_s32vector(len(a), a.astype(np.int32).tolist())
+                  elif a.dtype.kind == 'c':
+                      p = pmt.init_c32vector(len(a), a.astype(np.complex64).tolist())
+                  elif a.dtype == np.float64:
+                      p = pmt.init_f64vector(len(a), a.tolist())
+                  else:
+                      p = pmt.init_f32vector(len(a), a.astype(np.float32).tolist())
+              else:
+                  p = pmt.to_pmt(v)
+              m = pmt.dict_add(m, pmt.intern(k), p)
+          return m
+
+
+      def from_msg(m):
+          return pmt.to_python(m)
+
+
+      # ---------------------------------------------------------------- signal subtraction
+      def _gfsk_pulse(bt, t):
+          from math import erf, pi, sqrt, log
+          c = pi * sqrt(2.0 / log(2.0))
+          v = np.vectorize(erf)
+          return 0.5 * (v(c * bt * (t + 0.5)) - v(c * bt * (t - 0.5)))
+
+
+      _PULSE = _gfsk_pulse(2.0, (np.arange(3 * NSPS) - 1.5 * NSPS) / NSPS)
+
+
+      def gfsk_ref(tones, f0):
+          """Unit-amplitude complex FT8 waveform (79 symbols, GFSK BT=2) at f0 Hz, 12 kHz."""
+          hmod = 2.0 * np.pi / NSPS
+          dphi = np.zeros((NN + 2) * NSPS)
+          for j, tn in enumerate(tones):
+              dphi[j * NSPS: j * NSPS + 3 * NSPS] += hmod * tn * _PULSE
+          dphi[0:2 * NSPS] += hmod * tones[0] * _PULSE[NSPS:3 * NSPS]
+          dphi[NN * NSPS:(NN + 2) * NSPS] += hmod * tones[-1] * _PULSE[0:2 * NSPS]
+          dphi += 2.0 * np.pi * f0 / FS
+          phi = np.concatenate([[0.0], np.cumsum(dphi[NSPS:NSPS + NN * NSPS - 1])])
+          return np.exp(1j * phi)
+
+
+      _NFILT = 4000
+      _WFILT = np.cos(np.pi * (np.arange(_NFILT) - _NFILT // 2) / _NFILT) ** 2
+      _WFILT /= _WFILT.sum()
+
+
+      _DEN_CACHE = {}
+
+
+      def _fftconv_same(v):
+          n = len(v) + _NFILT - 1
+          nf = 1 << int(np.ceil(np.log2(n)))
+          r = np.fft.ifft(np.fft.fft(v, nf) * np.fft.fft(_WFILT, nf))[:n]
+          s = (_NFILT - 1) // 2
+          return r[s:s + len(v)]
+
+
+      def subtract(x, tones, f0, t0):
+          """Remove one decoded signal from x (in place). t0 = start time in s from slot start."""
+          cref = gfsk_ref(tones, f0)
+          n0 = int(round(t0 * FS))
+          a, b = max(0, n0), min(len(x), n0 + len(cref))
+          if b - a < NSPS:
+              return
+          cr = cref[a - n0: b - n0]
+          camp = x[a:b] * np.conj(cr)
+          num = _fftconv_same(camp)
+          den = _DEN_CACHE.get(b - a)
+          if den is None:                                   # edge correction, same for equal lengths
+              den = np.maximum(_fftconv_same(np.ones(b - a)).real, 1e-6)
+              _DEN_CACHE[b - a] = den
+          cfilt = num / den
+          x[a:b] -= 2.0 * np.real(cfilt * cr)
+
+
+      # ================================================================ Stage 6 block
+      class blk(gr.basic_block):
+          """FT8 Subtract: remove decoded signals and send the residual back to the search.
+
+          Each new decode is rebuilt as an ideal FT8 waveform (GFSK, BT = 2) at its
+          frequency and start time; its slowly varying amplitude and phase are measured
+          with a ~0.33 s smoothing filter, and the fitted signal is subtracted. The residual
+          goes back to FT8 Sync Search as the next pass, where weaker signals that were
+          hidden under the strong ones can now be found.
+          In 'audio': the audio each pass was decoded from (from FT8 Demodulator)
+          In 'new'  : the decodes that pass produced (from FT8 Unpack + Report)
+          Out 'slot': residual audio, pass + 1
+          """
+
+          def __init__(self):
+              gr.basic_block.__init__(self, name='FT8 Subtract', in_sig=None, out_sig=None)
+              self.message_port_register_in(pmt.intern('audio'))
+              self.message_port_register_in(pmt.intern('new'))
+              self.message_port_register_out(pmt.intern('slot'))
+              self.set_msg_handler(pmt.intern('audio'), self.on_audio)
+              self.set_msg_handler(pmt.intern('new'), self.on_new)
+              self.cache = {}
+
+          def on_audio(self, m):
+              d = from_msg(m)
+              self.cache[(d['slot'], d['pass'])] = np.asarray(d['audio'], dtype=np.float64)
+              if len(self.cache) > 12:                      # forget audio of finished slots
+                  for k in sorted(self.cache)[:len(self.cache) - 12]:
+                      del self.cache[k]
+
+          def on_new(self, m):
+              d = from_msg(m)
+              x = self.cache.pop((d['slot'], d['pass']), None)
+              if x is None:
+                  return
+              x = x.copy()
+              tones = np.asarray(d['tones'], dtype=int).reshape(-1, NN)
+              for t, f1, t0 in zip(tones, d['f1'], d['tstart']):
+                  subtract(x, t, float(f1), float(t0))
+              self.message_port_pub(pmt.intern('slot'), to_msg(dict(
+                  slot=d['slot'], label=d['label'], pretty=d['pretty'], **{'pass': d['pass'] + 1}, t0=d['t0'],
+                  base=np.asarray(d['base'], dtype=np.float64), audio=x.astype(np.float32))))
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1040
+    - 470
+    rotation: 0
+    state: enabled
+- name: xlate_display
+  id: freq_xlating_fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Display only: 0-4000 Hz audio -> 4 kS/s complex centred on 2000 Hz,
+
+      so the spectrum and waterfall show exactly 0-4 kHz.'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: fcf
+    decim: '3'
+    taps: firdes.low_pass(1.0, ft8_rate, 1900, 200)
+    center_freq: '2000'
+    samp_rate: ft8_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 520
+    - 132
+    rotation: 0
+    state: enabled
+- name: spectrum
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Use the GUI Autoscale (middle-click menu) to fit your audio level
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    fftsize: '2048'
+    fc: '2000'
+    bw: ft8_rate / 3
+    wintype: window.WIN_BLACKMAN_hARRIS
+    showports: 'False'
+    nconnections: '1'
+    name: '"Spectrum (audio Hz)"'
+    freqhalf: 'True'
+    grid: 'True'
+    autoscale: 'False'
+    average: '0.2'
+    ymin: '-120'
+    ymax: '-20'
+    label: Relative Gain
+    units: dB
+    update_time: '0.20'
+    gui_hint: 0,0,1,1
+    ctrlpanel: 'False'
+    legend: 'False'
+    axislabels: 'True'
+    norm_window: 'False'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_level: '0.0'
+    tr_chan: '0'
+    tr_tag: '""'
+    label1: ''
+    width1: '1'
+    color1: '"blue"'
+    alpha1: '1.0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 840
+    - 100
+    rotation: 0
+    state: enabled
+- name: waterfall
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Waterfall intensity: use Auto Scale in the middle-click menu'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    fftsize: '1024'
+    fc: '2000'
+    bw: ft8_rate / 3
+    wintype: window.WIN_BLACKMAN_hARRIS
+    showports: 'False'
+    nconnections: '1'
+    name: '"Waterfall (audio Hz)"'
+    freqhalf: 'True'
+    grid: 'False'
+    int_min: '-100'
+    int_max: '-40'
+    update_time: '0.10'
+    gui_hint: 1,0,1,1
+    legend: 'False'
+    axislabels: 'True'
+    label1: ''
+    color1: '0'
+    alpha1: '1.0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 840
+    - 200
+    rotation: 0
+    state: enabled
+- name: wav_src
+  id: blocks_wavfile_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'TEST SOURCE (disabled). Enable this + Throttle, disable Audio Source
+
+      and Low Pass Filter, set pc_clock = False.'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    file: wav_file
+    repeat: 'True'
+    nchan: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 16
+    - 520
+    rotation: 0
+    state: disabled
+- name: throttle
+  id: blocks_throttle
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    samples_per_second: ft8_rate
+    vlen: '1'
+    ignoretag: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 260
+    - 536
+    rotation: 0
+    state: disabled
+- name: snippet_table
+  id: snippet
+  parameters:
+    comment: Adds the decode table (UTC dB DT Freq Message) to the QT window
+    section: main_after_init
+    priority: '0'
+    code: |
+      # Put the FT8 decode table to the right of the spectrum/waterfall
+      self.top_grid_layout.addWidget(self.ft8_report.make_widget(), 0, 1, 2, 1)
+      self.top_grid_layout.setColumnStretch(0, 3)
+      self.top_grid_layout.setColumnStretch(1, 2)
+      self.resize(1400, 800)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1000
+    - 12
+    rotation: 0
+    state: enabled
+connections:
+- - audio_source_0
+  - '0'
+  - lpf_dec4
+  - '0'
+- - lpf_dec4
+  - '0'
+  - ft8_clock
+  - '0'
+- - lpf_dec4
+  - '0'
+  - xlate_display
+  - '0'
+- - xlate_display
+  - '0'
+  - spectrum
+  - '0'
+- - xlate_display
+  - '0'
+  - waterfall
+  - '0'
+- - wav_src
+  - '0'
+  - throttle
+  - '0'
+- - throttle
+  - '0'
+  - ft8_clock
+  - '0'
+- - throttle
+  - '0'
+  - xlate_display
+  - '0'
+- - ft8_clock
+  - slot
+  - ft8_search
+  - slot
+- - ft8_search
+  - cand
+  - ft8_demod
+  - cand
+- - ft8_demod
+  - llr
+  - ft8_ldpc
+  - llr
+- - ft8_demod
+  - audio
+  - ft8_subtract
+  - audio
+- - ft8_ldpc
+  - cw
+  - ft8_report
+  - cw
+- - ft8_report
+  - new
+  - ft8_subtract
+  - new
+- - ft8_subtract
+  - slot
+  - ft8_search
+  - slot
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0
