@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 700" width="1160" height="700" font-family="Helvetica, Arial, 'DejaVu Sans', sans-serif" role="img" aria-label="FT8 receiver: the whole flowgraph">
+<title>FT8 receiver: the whole flowgraph</title>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3d3d3a"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A32D2D"/></marker><marker id="aht" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0F6E56"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d4ed8"/></marker><marker id="aha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B45309"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#15803d"/></marker><marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B91C1C"/></marker><marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b6b66"/></marker><marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6D28D9"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="30.0" y="24.0" font-size="15" fill="#2b2b29" font-weight="700" text-anchor="start" dominant-baseline="central">The whole receiver: radio speaker to decode table</text>
+<rect x="30.0" y="54.0" width="190.0" height="84.0" rx="8" fill="#E6ECFB" stroke="#1d4ed8" stroke-width="1.3"/>
+<text x="125.0" y="72.0" font-size="13" fill="#1d4ed8" font-weight="700" text-anchor="middle" dominant-baseline="central">HF radio</text>
+<text x="125.0" y="89.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">USB, ~3 kHz filter</text>
+<text x="125.0" y="104.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">SPK / line out</text>
+<text x="125.0" y="119.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">→ sound card Line In</text>
+<rect x="255.0" y="54.0" width="190.0" height="84.0" rx="8" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1.3"/>
+<text x="350.0" y="79.5" font-size="13" fill="#0F6E56" font-weight="700" text-anchor="middle" dominant-baseline="central">Audio Source</text>
+<text x="350.0" y="96.5" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">Windows sound card</text>
+<text x="350.0" y="111.5" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">48,000 samples/s</text>
+<rect x="480.0" y="54.0" width="200.0" height="84.0" rx="8" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1.3"/>
+<text x="580.0" y="72.0" font-size="13" fill="#0F6E56" font-weight="700" text-anchor="middle" dominant-baseline="central">Low Pass Filter</text>
+<text x="580.0" y="89.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">keep below 4.5 kHz</text>
+<text x="580.0" y="104.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">keep 1 sample in 4</text>
+<text x="580.0" y="119.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">→ 12,000 samples/s</text>
+<rect x="715.0" y="54.0" width="200.0" height="84.0" rx="8" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1.3"/>
+<text x="815.0" y="72.0" font-size="13" fill="#0F6E56" font-weight="700" text-anchor="middle" dominant-baseline="central">Freq Xlating FIR</text>
+<text x="815.0" y="89.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">centre on 2 kHz, keep 1 in 3</text>
+<text x="815.0" y="104.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">→ exactly 0–4 kHz</text>
+<text x="815.0" y="119.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">for the displays</text>
+<rect x="950.0" y="54.0" width="180.0" height="38.0" rx="8" fill="#F1F1EE" stroke="#6b6b66" stroke-width="1.3"/>
+<text x="1040.0" y="73.0" font-size="12" fill="#6b6b66" font-weight="700" text-anchor="middle" dominant-baseline="central">Spectrum</text>
+<rect x="950.0" y="100.0" width="180.0" height="38.0" rx="8" fill="#F1F1EE" stroke="#6b6b66" stroke-width="1.3"/>
+<text x="1040.0" y="119.0" font-size="12" fill="#6b6b66" font-weight="700" text-anchor="middle" dominant-baseline="central">Waterfall</text>
+<path d="M220.0 96.0 L253.0 96.0" fill="none" stroke="#3d3d3a" stroke-width="1.4" marker-end="url(#ah)"/>
+<path d="M445.0 96.0 L478.0 96.0" fill="none" stroke="#3d3d3a" stroke-width="1.4" marker-end="url(#ah)"/>
+<path d="M680.0 96.0 L713.0 96.0" fill="none" stroke="#3d3d3a" stroke-width="1.4" marker-end="url(#ah)"/>
+<path d="M915.0 96.0 L932.0 96.0 L932.0 73.0 L948.0 73.0" fill="none" stroke="#6b6b66" stroke-width="1.4" marker-end="url(#ahm)"/>
+<path d="M932.0 96.0 L932.0 119.0 L948.0 119.0" fill="none" stroke="#6b6b66" stroke-width="1.4" marker-end="url(#ahm)"/>
+<path d="M580.0 138.0 L580.0 170.0 L125.0 170.0 L125.0 210.0" fill="none" stroke="#3d3d3a" stroke-width="1.4" marker-end="url(#ah)"/>
+<text x="352.0" y="160.0" font-size="11" fill="#6b6b66" font-weight="600" text-anchor="middle" dominant-baseline="central">one audio stream, 12,000 samples per second</text>
+<rect x="30.0" y="212.0" width="190.0" height="92.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.3"/>
+<text x="125.0" y="234.0" font-size="13" fill="#A32D2D" font-weight="700" text-anchor="middle" dominant-baseline="central">1 · Slot Clock</text>
+<text x="125.0" y="251.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">cuts 15 s UTC slots</text>
+<text x="125.0" y="266.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">by the PC clock</text>
+<text x="125.0" y="281.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">one message per slot</text>
+<rect x="255.0" y="212.0" width="190.0" height="92.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.3"/>
+<text x="350.0" y="234.0" font-size="13" fill="#A32D2D" font-weight="700" text-anchor="middle" dominant-baseline="central">2 · Sync Search</text>
+<text x="350.0" y="251.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">spectrogram + Costas</text>
+<text x="350.0" y="266.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">score everywhere</text>
+<text x="350.0" y="281.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">→ candidate list</text>
+<rect x="480.0" y="212.0" width="190.0" height="92.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.3"/>
+<text x="575.0" y="234.0" font-size="13" fill="#A32D2D" font-weight="700" text-anchor="middle" dominant-baseline="central">3 · Demodulator</text>
+<text x="575.0" y="251.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">shift, decimate, fine sync</text>
+<text x="575.0" y="266.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">79 × 8 tone grid</text>
+<text x="575.0" y="281.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">→ soft bits</text>
+<rect x="705.0" y="212.0" width="190.0" height="92.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.3"/>
+<text x="800.0" y="234.0" font-size="13" fill="#A32D2D" font-weight="700" text-anchor="middle" dominant-baseline="central">4 · LDPC + CRC</text>
+<text x="800.0" y="251.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">belief propagation</text>
+<text x="800.0" y="266.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">CRC-14 check</text>
+<text x="800.0" y="281.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">→ 174-bit codewords</text>
+<rect x="930.0" y="212.0" width="200.0" height="92.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.3"/>
+<text x="1030.0" y="234.0" font-size="13" fill="#A32D2D" font-weight="700" text-anchor="middle" dominant-baseline="central">5 · Unpack + Report</text>
+<text x="1030.0" y="251.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">77 bits → text</text>
+<text x="1030.0" y="266.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">dB, DT, Freq</text>
+<text x="1030.0" y="281.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">another pass?</text>
+<path d="M220.0 258.0 L253.0 258.0" fill="none" stroke="#A32D2D" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahc)"/>
+<text x="237.5" y="246.0" font-size="10" fill="#A32D2D" font-weight="600" text-anchor="middle" dominant-baseline="central">slot</text>
+<path d="M445.0 258.0 L478.0 258.0" fill="none" stroke="#A32D2D" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahc)"/>
+<text x="462.5" y="246.0" font-size="10" fill="#A32D2D" font-weight="600" text-anchor="middle" dominant-baseline="central">cand</text>
+<path d="M670.0 258.0 L703.0 258.0" fill="none" stroke="#A32D2D" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahc)"/>
+<text x="687.5" y="246.0" font-size="10" fill="#A32D2D" font-weight="600" text-anchor="middle" dominant-baseline="central">llr</text>
+<path d="M895.0 258.0 L928.0 258.0" fill="none" stroke="#A32D2D" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahc)"/>
+<text x="912.5" y="246.0" font-size="10" fill="#A32D2D" font-weight="600" text-anchor="middle" dominant-baseline="central">cw</text>
+<rect x="560.0" y="392.0" width="230.0" height="84.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.3"/>
+<text x="675.0" y="410.0" font-size="13" fill="#A32D2D" font-weight="700" text-anchor="middle" dominant-baseline="central">6 · Subtract</text>
+<text x="675.0" y="427.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">rebuild each new decode</text>
+<text x="675.0" y="442.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">and remove it from the audio</text>
+<text x="675.0" y="457.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">→ residual audio</text>
+<path d="M575.0 304.0 L575.0 390.0" fill="none" stroke="#A32D2D" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahc)"/>
+<text x="582.0" y="350.0" font-size="10" fill="#A32D2D" font-weight="600" text-anchor="start" dominant-baseline="central">audio</text>
+<path d="M1030.0 304.0 L1030.0 434.0 L792.0 434.0" fill="none" stroke="#A32D2D" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahc)"/>
+<text x="1022.0" y="360.0" font-size="10" fill="#A32D2D" font-weight="600" text-anchor="end" dominant-baseline="central">new decodes</text>
+<text x="1022.0" y="374.0" font-size="10" fill="#A32D2D" font-weight="400" text-anchor="end" dominant-baseline="central">(if passes left)</text>
+<path d="M560.0 434.0 L350.0 434.0 L350.0 306.0" fill="none" stroke="#A32D2D" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahc)"/>
+<text x="455.0" y="448.0" font-size="10" fill="#A32D2D" font-weight="600" text-anchor="middle" dominant-baseline="central">residual audio = pass 2, pass 3</text>
+<rect x="790.0" y="520.0" width="160.0" height="56.0" rx="8" fill="#FDF0DC" stroke="#B45309" stroke-width="1.3"/>
+<text x="870.0" y="539.0" font-size="12" fill="#B45309" font-weight="700" text-anchor="middle" dominant-baseline="central">Console</text>
+<text x="870.0" y="556.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">UTC dB DT Freq Message</text>
+<rect x="965.0" y="520.0" width="165.0" height="56.0" rx="8" fill="#FDF0DC" stroke="#B45309" stroke-width="1.3"/>
+<text x="1047.5" y="539.0" font-size="12" fill="#B45309" font-weight="700" text-anchor="middle" dominant-baseline="central">QT decode table</text>
+<text x="1047.5" y="556.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">next to the waterfall</text>
+<rect x="615.0" y="520.0" width="160.0" height="56.0" rx="8" fill="#FDF0DC" stroke="#B45309" stroke-width="1.3"/>
+<text x="695.0" y="539.0" font-size="12" fill="#B45309" font-weight="700" text-anchor="middle" dominant-baseline="central">'decodes' port</text>
+<text x="695.0" y="556.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">one PMT dict per decode</text>
+<path d="M1080.0 304.0 L1080.0 506.0 L870.0 506.0 L870.0 518.0" fill="none" stroke="#B45309" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#aha)"/>
+<path d="M1080.0 506.0 L1047.0 506.0 L1047.0 518.0" fill="none" stroke="#B45309" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#aha)"/>
+<path d="M870.0 506.0 L695.0 506.0 L695.0 518.0" fill="none" stroke="#B45309" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#aha)"/>
+<text x="1090.0" y="492.0" font-size="10" fill="#B45309" font-weight="600" text-anchor="start" dominant-baseline="central">slot finished</text>
+<rect x="30.0" y="520.0" width="300.0" height="56.0" rx="8" fill="#F1F1EE" stroke="#6b6b66" stroke-width="1.3"/>
+<text x="180.0" y="539.0" font-size="12" fill="#6b6b66" font-weight="700" text-anchor="middle" dominant-baseline="central">Python Snippet</text>
+<text x="180.0" y="556.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">puts stage 5's table into the QT window</text>
+<rect x="30.0" y="612.0" width="22.0" height="16.0" rx="4" fill="#E6ECFB" stroke="#1d4ed8" stroke-width="1.2"/>
+<text x="58.0" y="620.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">hardware</text>
+<rect x="260.0" y="612.0" width="22.0" height="16.0" rx="4" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1.2"/>
+<text x="288.0" y="620.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">stock GNU Radio block</text>
+<rect x="30.0" y="634.0" width="22.0" height="16.0" rx="4" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.2"/>
+<text x="58.0" y="642.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">Embedded Python Block</text>
+<rect x="260.0" y="634.0" width="22.0" height="16.0" rx="4" fill="#F1F1EE" stroke="#6b6b66" stroke-width="1.2"/>
+<text x="288.0" y="642.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">display / helper</text>
+<path d="M30.0 664.0 L66.0 664.0" fill="none" stroke="#3d3d3a" stroke-width="1.4" marker-end="url(#ah)"/>
+<text x="74.0" y="664.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">sample stream</text>
+<path d="M260.0 664.0 L296.0 664.0" fill="none" stroke="#A32D2D" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahc)"/>
+<text x="304.0" y="664.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">message (one per slot and pass)</text>
+</svg>

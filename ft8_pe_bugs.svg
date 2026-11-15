@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 700" width="1160" height="700" font-family="Helvetica, Arial, 'DejaVu Sans', sans-serif" role="img" aria-label="War stories">
+<title>War stories</title>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3d3d3a"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A32D2D"/></marker><marker id="aht" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0F6E56"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d4ed8"/></marker><marker id="aha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B45309"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#15803d"/></marker><marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B91C1C"/></marker><marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b6b66"/></marker><marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6D28D9"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="30.0" y="24.0" font-size="15" fill="#2b2b29" font-weight="700" text-anchor="start" dominant-baseline="central">War stories: eight things that went wrong, and what fixed them</text>
+<rect x="30.0" y="54.0" width="540.0" height="140.0" rx="8" fill="#ffffff" stroke="#d9d9d4" stroke-width="1.2"/>
+<rect x="30.0" y="54.0" width="540.0" height="30.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.2"/>
+<rect x="31.0" y="74.0" width="538.0" height="10.0" rx="0" fill="#F8E6E4" stroke="none" stroke-width="0"/>
+<text x="44.0" y="69.0" font-size="12" fill="#A32D2D" font-weight="700" text-anchor="start" dominant-baseline="central">1 · The LDPC decoder that "didn't work"</text>
+<text x="44.0" y="104.0" font-size="10" fill="#6b6b66" font-weight="700" text-anchor="start" dominant-baseline="central">Symptom</text>
+<text x="120.0" y="104.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">BP failed at every noise level.</text>
+<text x="44.0" y="130.0" font-size="10" fill="#0F6E56" font-weight="700" text-anchor="start" dominant-baseline="central">Fix</text>
+<text x="120.0" y="130.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">The bug was in my test: 2·bit − 1 on uint8 gives 255.</text>
+<text x="44.0" y="164.0" font-size="10" fill="#B45309" font-weight="700" text-anchor="start" dominant-baseline="central">Lesson</text>
+<text x="120.0" y="164.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central" font-style="italic">Check the test before the code.</text>
+<rect x="590.0" y="54.0" width="540.0" height="140.0" rx="8" fill="#ffffff" stroke="#d9d9d4" stroke-width="1.2"/>
+<rect x="590.0" y="54.0" width="540.0" height="30.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.2"/>
+<rect x="591.0" y="74.0" width="538.0" height="10.0" rx="0" fill="#F8E6E4" stroke="none" stroke-width="0"/>
+<text x="604.0" y="69.0" font-size="12" fill="#A32D2D" font-weight="700" text-anchor="start" dominant-baseline="central">2 · A dB column that squashed strong signals</text>
+<text x="604.0" y="104.0" font-size="10" fill="#6b6b66" font-weight="700" text-anchor="start" dominant-baseline="central">Symptom</text>
+<text x="680.0" y="104.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">+19 dB stations showed as about 0 dB.</text>
+<text x="604.0" y="130.0" font-size="10" fill="#0F6E56" font-weight="700" text-anchor="start" dominant-baseline="central">Fix</text>
+<text x="680.0" y="130.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">Measure noise across ±300 Hz, not inside the signal.</text>
+<text x="604.0" y="164.0" font-size="10" fill="#B45309" font-weight="700" text-anchor="start" dominant-baseline="central">Lesson</text>
+<text x="680.0" y="164.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central" font-style="italic">GFSK spills; your noise estimate may be signal.</text>
+<rect x="30.0" y="210.0" width="540.0" height="140.0" rx="8" fill="#ffffff" stroke="#d9d9d4" stroke-width="1.2"/>
+<rect x="30.0" y="210.0" width="540.0" height="30.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.2"/>
+<rect x="31.0" y="230.0" width="538.0" height="10.0" rx="0" fill="#F8E6E4" stroke="none" stroke-width="0"/>
+<text x="44.0" y="225.0" font-size="12" fill="#A32D2D" font-weight="700" text-anchor="start" dominant-baseline="central">3 · Sixteen "false decodes" that were real</text>
+<text x="44.0" y="260.0" font-size="10" fill="#6b6b66" font-weight="700" text-anchor="start" dominant-baseline="central">Symptom</text>
+<text x="120.0" y="260.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">Messages missing from WSJT-X's list.</text>
+<text x="44.0" y="286.0" font-size="10" fill="#0F6E56" font-weight="700" text-anchor="start" dominant-baseline="central">Fix</text>
+<text x="120.0" y="286.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">Real calls, real partners, two seen by ft8_lib too.</text>
+<text x="44.0" y="320.0" font-size="10" fill="#B45309" font-weight="700" text-anchor="start" dominant-baseline="central">Lesson</text>
+<text x="120.0" y="320.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central" font-style="italic">Ask a second decoder before you doubt.</text>
+<rect x="590.0" y="210.0" width="540.0" height="140.0" rx="8" fill="#ffffff" stroke="#d9d9d4" stroke-width="1.2"/>
+<rect x="590.0" y="210.0" width="540.0" height="30.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.2"/>
+<rect x="591.0" y="230.0" width="538.0" height="10.0" rx="0" fill="#F8E6E4" stroke="none" stroke-width="0"/>
+<text x="604.0" y="225.0" font-size="12" fill="#A32D2D" font-weight="700" text-anchor="start" dominant-baseline="central">4 · A smoothing filter that took minutes</text>
+<text x="604.0" y="260.0" font-size="10" fill="#6b6b66" font-weight="700" text-anchor="start" dominant-baseline="central">Symptom</text>
+<text x="680.0" y="260.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">4000-tap filter, direct convolution.</text>
+<text x="604.0" y="286.0" font-size="10" fill="#0F6E56" font-weight="700" text-anchor="start" dominant-baseline="central">Fix</text>
+<text x="680.0" y="286.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">FFT convolution, plus a cached edge correction.</text>
+<text x="604.0" y="320.0" font-size="10" fill="#B45309" font-weight="700" text-anchor="start" dominant-baseline="central">Lesson</text>
+<text x="680.0" y="320.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central" font-style="italic">Big filters belong in the frequency domain.</text>
+<rect x="30.0" y="366.0" width="540.0" height="140.0" rx="8" fill="#ffffff" stroke="#d9d9d4" stroke-width="1.2"/>
+<rect x="30.0" y="366.0" width="540.0" height="30.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.2"/>
+<rect x="31.0" y="386.0" width="538.0" height="10.0" rx="0" fill="#F8E6E4" stroke="none" stroke-width="0"/>
+<text x="44.0" y="381.0" font-size="12" fill="#A32D2D" font-weight="700" text-anchor="start" dominant-baseline="central">5 · 85 ms to send one slot</text>
+<text x="44.0" y="416.0" font-size="10" fill="#6b6b66" font-weight="700" text-anchor="start" dominant-baseline="central">Symptom</text>
+<text x="120.0" y="416.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">numpy → PMT vector conversion was slow.</text>
+<text x="44.0" y="442.0" font-size="10" fill="#0F6E56" font-weight="700" text-anchor="start" dominant-baseline="central">Fix</text>
+<text x="120.0" y="442.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">Hand it a Python list: 7 ms.</text>
+<text x="44.0" y="476.0" font-size="10" fill="#B45309" font-weight="700" text-anchor="start" dominant-baseline="central">Lesson</text>
+<text x="120.0" y="476.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central" font-style="italic">Measure the plumbing, not only the maths.</text>
+<rect x="590.0" y="366.0" width="540.0" height="140.0" rx="8" fill="#ffffff" stroke="#d9d9d4" stroke-width="1.2"/>
+<rect x="590.0" y="366.0" width="540.0" height="30.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.2"/>
+<rect x="591.0" y="386.0" width="538.0" height="10.0" rx="0" fill="#F8E6E4" stroke="none" stroke-width="0"/>
+<text x="604.0" y="381.0" font-size="12" fill="#A32D2D" font-weight="700" text-anchor="start" dominant-baseline="central">6 · A table column that ate the window</text>
+<text x="604.0" y="416.0" font-size="10" fill="#6b6b66" font-weight="700" text-anchor="start" dominant-baseline="central">Symptom</text>
+<text x="680.0" y="416.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">UTC column 300 px wide.</text>
+<text x="604.0" y="442.0" font-size="10" fill="#0F6E56" font-weight="700" text-anchor="start" dominant-baseline="central">Fix</text>
+<text x="680.0" y="442.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">Fixed widths; the separator row had set it.</text>
+<text x="604.0" y="476.0" font-size="10" fill="#B45309" font-weight="700" text-anchor="start" dominant-baseline="central">Lesson</text>
+<text x="680.0" y="476.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central" font-style="italic">Spanned rows still count in auto-sizing.</text>
+<rect x="30.0" y="522.0" width="540.0" height="140.0" rx="8" fill="#ffffff" stroke="#d9d9d4" stroke-width="1.2"/>
+<rect x="30.0" y="522.0" width="540.0" height="30.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.2"/>
+<rect x="31.0" y="542.0" width="538.0" height="10.0" rx="0" fill="#F8E6E4" stroke="none" stroke-width="0"/>
+<text x="44.0" y="537.0" font-size="12" fill="#A32D2D" font-weight="700" text-anchor="start" dominant-baseline="central">7 · The last slot that never printed</text>
+<text x="44.0" y="572.0" font-size="10" fill="#6b6b66" font-weight="700" text-anchor="start" dominant-baseline="central">Symptom</text>
+<text x="120.0" y="572.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">File test: final slot missing.</text>
+<text x="44.0" y="598.0" font-size="10" fill="#0F6E56" font-weight="700" text-anchor="start" dominant-baseline="central">Fix</text>
+<text x="120.0" y="598.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">GNU Radio stops message blocks at end of file.</text>
+<text x="44.0" y="632.0" font-size="10" fill="#B45309" font-weight="700" text-anchor="start" dominant-baseline="central">Lesson</text>
+<text x="120.0" y="632.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central" font-style="italic">Keep repeat on; live audio never ends.</text>
+<rect x="590.0" y="522.0" width="540.0" height="140.0" rx="8" fill="#ffffff" stroke="#d9d9d4" stroke-width="1.2"/>
+<rect x="590.0" y="522.0" width="540.0" height="30.0" rx="8" fill="#F8E6E4" stroke="#A32D2D" stroke-width="1.2"/>
+<rect x="591.0" y="542.0" width="538.0" height="10.0" rx="0" fill="#F8E6E4" stroke="none" stroke-width="0"/>
+<text x="604.0" y="537.0" font-size="12" fill="#A32D2D" font-weight="700" text-anchor="start" dominant-baseline="central">8 · Twenty slots that were twenty-two</text>
+<text x="604.0" y="572.0" font-size="10" fill="#6b6b66" font-weight="700" text-anchor="start" dominant-baseline="central">Symptom</text>
+<text x="680.0" y="572.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">My averages divided by 20.</text>
+<text x="604.0" y="598.0" font-size="10" fill="#0F6E56" font-weight="700" text-anchor="start" dominant-baseline="central">Fix</text>
+<text x="680.0" y="598.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">There are 22 recordings in the test set.</text>
+<text x="604.0" y="632.0" font-size="10" fill="#B45309" font-weight="700" text-anchor="start" dominant-baseline="central">Lesson</text>
+<text x="680.0" y="632.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central" font-style="italic">Count from the data, not from memory.</text>
+</svg>

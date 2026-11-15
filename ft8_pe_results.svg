@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 560" width="1160" height="560" font-family="Helvetica, Arial, 'DejaVu Sans', sans-serif" role="img" aria-label="Results on 22 recorded slots">
+<title>Results on 22 recorded slots</title>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3d3d3a"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A32D2D"/></marker><marker id="aht" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0F6E56"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d4ed8"/></marker><marker id="aha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B45309"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#15803d"/></marker><marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B91C1C"/></marker><marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b6b66"/></marker><marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6D28D9"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="30.0" y="24.0" font-size="15" fill="#2b2b29" font-weight="700" text-anchor="start" dominant-baseline="central">Results: 22 real recorded slots, WSJT-X vs this flowgraph vs ft8_lib</text>
+<rect x="70.0" y="70.0" width="1060.0" height="330.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="1"/>
+<path d="M70.0 400.0 L1130.0 400.0" fill="none" stroke="#eeeeea" stroke-width="1"/>
+<text x="62.0" y="400.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">0</text>
+<path d="M70.0 348.4 L1130.0 348.4" fill="none" stroke="#eeeeea" stroke-width="1"/>
+<text x="62.0" y="348.4" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">5</text>
+<path d="M70.0 296.9 L1130.0 296.9" fill="none" stroke="#eeeeea" stroke-width="1"/>
+<text x="62.0" y="296.9" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">10</text>
+<path d="M70.0 245.3 L1130.0 245.3" fill="none" stroke="#eeeeea" stroke-width="1"/>
+<text x="62.0" y="245.3" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">15</text>
+<path d="M70.0 193.8 L1130.0 193.8" fill="none" stroke="#eeeeea" stroke-width="1"/>
+<text x="62.0" y="193.8" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">20</text>
+<path d="M70.0 142.2 L1130.0 142.2" fill="none" stroke="#eeeeea" stroke-width="1"/>
+<text x="62.0" y="142.2" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">25</text>
+<path d="M70.0 90.6 L1130.0 90.6" fill="none" stroke="#eeeeea" stroke-width="1"/>
+<text x="62.0" y="90.6" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">30</text>
+<text x="30.0" y="235.0" font-size="10" fill="#6b6b66" font-weight="600" text-anchor="middle" dominant-baseline="central">messages</text>
+<rect x="76.0" y="389.7" width="8.0" height="10.3" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="85.0" y="389.7" width="8.0" height="10.3" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="94.1" y="389.7" width="8.0" height="10.3" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="103.1" y="400.0" width="8.0" height="0.0" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="94.1" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">110115</text>
+<rect x="124.2" y="348.4" width="8.0" height="51.6" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="133.2" y="358.8" width="8.0" height="41.2" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="142.3" y="358.8" width="8.0" height="41.2" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="151.3" y="358.8" width="8.0" height="41.2" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="142.3" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">110130</text>
+<rect x="172.4" y="379.4" width="8.0" height="20.6" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="181.4" y="379.4" width="8.0" height="20.6" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="190.5" y="379.4" width="8.0" height="20.6" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="199.5" y="379.4" width="8.0" height="20.6" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="190.5" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">110145</text>
+<rect x="220.5" y="348.4" width="8.0" height="51.6" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="229.6" y="348.4" width="8.0" height="51.6" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="238.6" y="348.4" width="8.0" height="51.6" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="247.7" y="358.8" width="8.0" height="41.2" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="238.6" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">110200</text>
+<rect x="268.7" y="358.8" width="8.0" height="41.2" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="277.8" y="369.1" width="8.0" height="30.9" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="286.8" y="369.1" width="8.0" height="30.9" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="295.9" y="369.1" width="8.0" height="30.9" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="286.8" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">110215</text>
+<rect x="316.9" y="193.8" width="8.0" height="206.2" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="326.0" y="214.4" width="8.0" height="185.6" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="335.0" y="245.3" width="8.0" height="154.7" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="344.0" y="224.7" width="8.0" height="175.3" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="335.0" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">110615</text>
+<rect x="365.1" y="245.3" width="8.0" height="154.7" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="374.1" y="265.9" width="8.0" height="134.1" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="383.2" y="286.6" width="8.0" height="113.4" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="392.2" y="286.6" width="8.0" height="113.4" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="383.2" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">110630</text>
+<rect x="413.3" y="204.1" width="8.0" height="195.9" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="422.3" y="204.1" width="8.0" height="195.9" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="431.4" y="255.6" width="8.0" height="144.4" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="440.4" y="235.0" width="8.0" height="165.0" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="431.4" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">110645</text>
+<rect x="461.5" y="235.0" width="8.0" height="165.0" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="470.5" y="245.3" width="8.0" height="154.7" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="479.5" y="245.3" width="8.0" height="154.7" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="488.6" y="255.6" width="8.0" height="144.4" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="479.5" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">110700</text>
+<rect x="509.6" y="214.4" width="8.0" height="185.6" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="518.7" y="245.3" width="8.0" height="154.7" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="527.7" y="265.9" width="8.0" height="134.1" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="536.8" y="265.9" width="8.0" height="134.1" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="527.7" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 1</text>
+<rect x="557.8" y="245.3" width="8.0" height="154.7" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="566.9" y="276.2" width="8.0" height="123.8" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="575.9" y="276.2" width="8.0" height="123.8" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="585.0" y="276.2" width="8.0" height="123.8" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="575.9" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 10</text>
+<rect x="606.0" y="183.4" width="8.0" height="216.6" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="615.0" y="214.4" width="8.0" height="185.6" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="624.1" y="245.3" width="8.0" height="154.7" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="633.1" y="276.2" width="8.0" height="123.8" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="624.1" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 11</text>
+<rect x="654.2" y="255.6" width="8.0" height="144.4" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="663.2" y="286.6" width="8.0" height="113.4" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="672.3" y="307.2" width="8.0" height="92.8" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="681.3" y="338.1" width="8.0" height="61.9" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="672.3" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 12</text>
+<rect x="702.4" y="265.9" width="8.0" height="134.1" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="711.4" y="265.9" width="8.0" height="134.1" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="720.5" y="286.6" width="8.0" height="113.4" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="729.5" y="286.6" width="8.0" height="113.4" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="720.5" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 13</text>
+<rect x="750.5" y="183.4" width="8.0" height="216.6" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="759.6" y="183.4" width="8.0" height="216.6" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="768.6" y="214.4" width="8.0" height="185.6" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="777.7" y="204.1" width="8.0" height="195.9" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="768.6" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 2</text>
+<rect x="798.7" y="286.6" width="8.0" height="113.4" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="807.8" y="296.9" width="8.0" height="103.1" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="816.8" y="307.2" width="8.0" height="92.8" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="825.9" y="307.2" width="8.0" height="92.8" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="816.8" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 3</text>
+<rect x="846.9" y="173.1" width="8.0" height="226.9" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="856.0" y="173.1" width="8.0" height="226.9" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="865.0" y="193.8" width="8.0" height="206.2" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="874.0" y="193.8" width="8.0" height="206.2" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="865.0" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 4</text>
+<rect x="895.1" y="121.6" width="8.0" height="278.4" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="904.1" y="131.9" width="8.0" height="268.1" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="913.2" y="204.1" width="8.0" height="195.9" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="922.2" y="224.7" width="8.0" height="175.3" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="913.2" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 5</text>
+<rect x="943.3" y="100.9" width="8.0" height="299.1" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="952.3" y="142.2" width="8.0" height="257.8" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="961.4" y="193.8" width="8.0" height="206.2" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="970.4" y="193.8" width="8.0" height="206.2" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="961.4" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 6</text>
+<rect x="991.5" y="121.6" width="8.0" height="278.4" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="1000.5" y="152.5" width="8.0" height="247.5" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="1009.5" y="193.8" width="8.0" height="206.2" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="1018.6" y="224.7" width="8.0" height="175.3" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="1009.5" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 7</text>
+<rect x="1039.6" y="131.9" width="8.0" height="268.1" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="1048.7" y="173.1" width="8.0" height="226.9" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="1057.7" y="224.7" width="8.0" height="175.3" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="1066.8" y="214.4" width="8.0" height="185.6" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="1057.7" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 8</text>
+<rect x="1087.8" y="173.1" width="8.0" height="226.9" rx="1" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<rect x="1096.9" y="224.7" width="8.0" height="175.3" rx="1" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<rect x="1105.9" y="245.3" width="8.0" height="154.7" rx="1" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<rect x="1115.0" y="255.6" width="8.0" height="144.4" rx="1" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="1105.9" y="414.0" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">web 9</text>
+<rect x="70.0" y="434.0" width="18.0" height="12.0" rx="2" fill="#d9d9d4" stroke="none" stroke-width="0"/>
+<text x="96.0" y="440.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central">WSJT-X (reference list): 353</text>
+<rect x="340.0" y="434.0" width="18.0" height="12.0" rx="2" fill="#A32D2D" stroke="none" stroke-width="0"/>
+<text x="366.0" y="440.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central">this flowgraph, passes = 3: 316</text>
+<rect x="610.0" y="434.0" width="18.0" height="12.0" rx="2" fill="#E8A9A2" stroke="none" stroke-width="0"/>
+<text x="636.0" y="440.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central">this flowgraph, passes = 1: 268</text>
+<rect x="880.0" y="434.0" width="18.0" height="12.0" rx="2" fill="#1d4ed8" stroke="none" stroke-width="0"/>
+<text x="906.0" y="440.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central">ft8_lib decode_ft8: 259</text>
+<text x="30.0" y="476.0" font-size="10.5" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">Counted: messages that also appear in WSJT-X's own list for that slot. On top of its 316, the flowgraph decoded 16 messages that are not in WSJT-X's</text>
+<text x="30.0" y="492.0" font-size="10.5" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">list. I checked them: real callsigns with matching QSO partners, two of them also decoded by ft8_lib; none looks false. 30 slots of pure noise gave 0 decodes.</text>
+<text x="30.0" y="516.0" font-size="10.5" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">dB column: within about ±3 dB of WSJT-X (mean offset 0). DT: same as WSJT-X to 0.1 s. Time: about 1.8 s per slot with 3 passes, 0.6 s with 1.</text>
+<text x="30.0" y="532.0" font-size="10.5" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">The recordings are the test set that ships with ft8_lib (K. Goba): nine slots saved by WSJT-X in November 2019, thirteen recorded from WebSDR receivers.</text>
+</svg>

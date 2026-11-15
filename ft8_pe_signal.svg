@@ -1,0 +1,255 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 640" width="1160" height="640" font-family="Helvetica, Arial, 'DejaVu Sans', sans-serif" role="img" aria-label="What an FT8 transmission is">
+<title>What an FT8 transmission is</title>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3d3d3a"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A32D2D"/></marker><marker id="aht" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0F6E56"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d4ed8"/></marker><marker id="aha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B45309"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#15803d"/></marker><marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B91C1C"/></marker><marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b6b66"/></marker><marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6D28D9"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="30.0" y="24.0" font-size="15" fill="#2b2b29" font-weight="700" text-anchor="start" dominant-baseline="central">One FT8 transmission: 15 s slot, 79 symbols, 8 tones</text>
+<text x="30.0" y="58.0" font-size="12" fill="#2b2b29" font-weight="700" text-anchor="start" dominant-baseline="central">A · The 15-second slot (every :00, :15, :30, :45 by the clock)</text>
+<path d="M80.0 130.0 L1083.2 130.0" fill="none" stroke="#6b6b66" stroke-width="1.2"/>
+<path d="M80.0 126.0 L80.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="80.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">0</text>
+<path d="M146.0 126.0 L146.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="146.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">1</text>
+<path d="M212.0 126.0 L212.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="212.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">2</text>
+<path d="M278.0 126.0 L278.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="278.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">3</text>
+<path d="M344.0 126.0 L344.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="344.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">4</text>
+<path d="M410.0 126.0 L410.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="410.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">5</text>
+<path d="M476.0 126.0 L476.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="476.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">6</text>
+<path d="M542.0 126.0 L542.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="542.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">7</text>
+<path d="M608.0 126.0 L608.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="608.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">8</text>
+<path d="M674.0 126.0 L674.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="674.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">9</text>
+<path d="M740.0 126.0 L740.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="740.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">10</text>
+<path d="M806.0 126.0 L806.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="806.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">11</text>
+<path d="M872.0 126.0 L872.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="872.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">12</text>
+<path d="M938.0 126.0 L938.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="938.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">13</text>
+<path d="M1004.0 126.0 L1004.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="1004.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">14</text>
+<path d="M1070.0 126.0 L1070.0 134.0" fill="none" stroke="#6b6b66" stroke-width="1"/>
+<text x="1070.0" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="middle" dominant-baseline="central">15</text>
+<text x="1089.2" y="146.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">s</text>
+<rect x="113.0" y="100.0" width="834.2" height="24.0" rx="4" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1.3"/>
+<text x="530.1" y="112.0" font-size="12" fill="#0F6E56" font-weight="700" text-anchor="middle" dominant-baseline="central">79 symbols × 0.16 s = 12.64 s on air</text>
+<text x="113.0" y="88.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">starts 0.5 s after the slot</text>
+<text x="947.2" y="88.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">ends at 13.14 s</text>
+<path d="M1030.4 82.0 L1030.4 126.0" fill="none" stroke="#B45309" stroke-width="1.6" marker-end="url(#aha)"/>
+<text x="1030.4" y="74.0" font-size="10" fill="#B45309" font-weight="700" text-anchor="middle" dominant-baseline="central">my decoder starts</text>
+<rect x="80.0" y="182.0" width="240.0" height="44.0" rx="8" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1.3"/>
+<text x="200.0" y="195.0" font-size="12" fill="#0F6E56" font-weight="700" text-anchor="middle" dominant-baseline="central">:00 (even)</text>
+<text x="200.0" y="212.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">A: CQ YB1ABC OI33</text>
+<rect x="338.0" y="182.0" width="240.0" height="44.0" rx="8" fill="#EFE7FB" stroke="#6D28D9" stroke-width="1.3"/>
+<text x="458.0" y="195.0" font-size="12" fill="#6D28D9" font-weight="700" text-anchor="middle" dominant-baseline="central">:15 (odd)</text>
+<text x="458.0" y="212.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">B: YB1ABC JA1XYZ PM95</text>
+<rect x="596.0" y="182.0" width="240.0" height="44.0" rx="8" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1.3"/>
+<text x="716.0" y="195.0" font-size="12" fill="#0F6E56" font-weight="700" text-anchor="middle" dominant-baseline="central">:30 (even)</text>
+<text x="716.0" y="212.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">A: JA1XYZ YB1ABC -12</text>
+<rect x="854.0" y="182.0" width="240.0" height="44.0" rx="8" fill="#EFE7FB" stroke="#6D28D9" stroke-width="1.3"/>
+<text x="974.0" y="195.0" font-size="12" fill="#6D28D9" font-weight="700" text-anchor="middle" dominant-baseline="central">:45 (odd)</text>
+<text x="974.0" y="212.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">B: YB1ABC JA1XYZ R-08</text>
+<text x="30.0" y="250.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">Two stations take turns: one transmits in the even slots, the other in the odd ones. A QSO takes four to six slots; the decoder only has to read each slot.</text>
+<text x="30.0" y="288.0" font-size="12" fill="#2b2b29" font-weight="700" text-anchor="start" dominant-baseline="central">B · Inside the transmission: three sync blocks and two data blocks</text>
+<rect x="80.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="92.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="104.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="117.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="129.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="142.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="154.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="166.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="179.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="191.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="204.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="216.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="228.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="241.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="253.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="266.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="278.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="290.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="303.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="315.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="328.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="340.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="352.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="365.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="377.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="390.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="402.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="414.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="427.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="439.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="452.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="464.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="476.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="489.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="501.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="514.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="526.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="538.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="551.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="563.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="576.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="588.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="600.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="613.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="625.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="638.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="650.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="662.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="675.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="687.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="700.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="712.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="724.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="737.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="749.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="762.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="774.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="786.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="799.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="811.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="824.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="836.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="848.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="861.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="873.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="886.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="898.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="910.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="923.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="935.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="948.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="960.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#E3F2EC" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="972.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="985.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="997.6" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="1010.0" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="1022.4" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="1034.8" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<rect x="1047.2" y="308.0" width="11.2" height="26.0" rx="2" fill="#EFE7FB" stroke="#6D28D9" stroke-width="0.8"/>
+<text x="123.4" y="350.0" font-size="11" fill="#6D28D9" font-weight="700" text-anchor="middle" dominant-baseline="central">Costas</text>
+<text x="123.4" y="365.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">7 symbols</text>
+<text x="346.6" y="350.0" font-size="11" fill="#0F6E56" font-weight="700" text-anchor="middle" dominant-baseline="central">data</text>
+<text x="346.6" y="365.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">29 symbols = 87 coded bits</text>
+<text x="569.8" y="350.0" font-size="11" fill="#6D28D9" font-weight="700" text-anchor="middle" dominant-baseline="central">Costas</text>
+<text x="569.8" y="365.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">7 symbols</text>
+<text x="793.0" y="350.0" font-size="11" fill="#0F6E56" font-weight="700" text-anchor="middle" dominant-baseline="central">data</text>
+<text x="793.0" y="365.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">29 symbols = 87 coded bits</text>
+<text x="1016.2" y="350.0" font-size="11" fill="#6D28D9" font-weight="700" text-anchor="middle" dominant-baseline="central">Costas</text>
+<text x="1016.2" y="365.0" font-size="10" fill="#2b2b29" font-weight="400" text-anchor="middle" dominant-baseline="central">7 symbols</text>
+<text x="80.0" y="388.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central">58 data symbols × 3 bits = 174 coded bits = 77 message bits + 14 CRC bits + 83 LDPC parity bits</text>
+<text x="30.0" y="420.0" font-size="12" fill="#2b2b29" font-weight="700" text-anchor="start" dominant-baseline="central">C · Eight tones, 6.25 Hz apart (50 Hz in all)</text>
+<text x="72.0" y="569.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">tone 0</text>
+<text x="272.0" y="569.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">+0.00 Hz</text>
+<text x="72.0" y="552.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">tone 1</text>
+<text x="272.0" y="552.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">+6.25 Hz</text>
+<text x="72.0" y="535.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">tone 2</text>
+<text x="272.0" y="535.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">+12.50 Hz</text>
+<text x="72.0" y="518.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">tone 3</text>
+<text x="272.0" y="518.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">+18.75 Hz</text>
+<text x="72.0" y="501.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">tone 4</text>
+<text x="272.0" y="501.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">+25.00 Hz</text>
+<text x="72.0" y="484.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">tone 5</text>
+<text x="272.0" y="484.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">+31.25 Hz</text>
+<text x="72.0" y="467.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">tone 6</text>
+<text x="272.0" y="467.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">+37.50 Hz</text>
+<text x="72.0" y="450.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="end" dominant-baseline="central">tone 7</text>
+<text x="272.0" y="450.5" font-size="9" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">+43.75 Hz</text>
+<rect x="80.0" y="561.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="80.0" y="544.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="80.0" y="527.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="80.0" y="510.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="80.0" y="493.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="80.0" y="476.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="80.0" y="459.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="80.0" y="442.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="106.0" y="561.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="106.0" y="544.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="106.0" y="527.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="106.0" y="510.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="106.0" y="493.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="106.0" y="476.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="106.0" y="459.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="106.0" y="442.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="132.0" y="561.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="132.0" y="544.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="132.0" y="527.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="132.0" y="510.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="132.0" y="493.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="132.0" y="476.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="132.0" y="459.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="132.0" y="442.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="158.0" y="561.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="158.0" y="544.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="158.0" y="527.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="158.0" y="510.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="158.0" y="493.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="158.0" y="476.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="158.0" y="459.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="158.0" y="442.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="184.0" y="561.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="184.0" y="544.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="184.0" y="527.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="184.0" y="510.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="184.0" y="493.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="184.0" y="476.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="184.0" y="459.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="184.0" y="442.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="210.0" y="561.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="210.0" y="544.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="210.0" y="527.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="210.0" y="510.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="210.0" y="493.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="210.0" y="476.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="210.0" y="459.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="210.0" y="442.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="236.0" y="561.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="236.0" y="544.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="236.0" y="527.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="236.0" y="510.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="236.0" y="493.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="236.0" y="476.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="236.0" y="459.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="236.0" y="442.0" width="26.0" height="17.0" rx="0" fill="#ffffff" stroke="#d9d9d4" stroke-width="0.8"/>
+<rect x="82.0" y="512.0" width="22.0" height="13.0" rx="3" fill="#6D28D9" stroke="none" stroke-width="0"/>
+<rect x="108.0" y="546.0" width="22.0" height="13.0" rx="3" fill="#6D28D9" stroke="none" stroke-width="0"/>
+<rect x="134.0" y="495.0" width="22.0" height="13.0" rx="3" fill="#6D28D9" stroke="none" stroke-width="0"/>
+<rect x="160.0" y="563.0" width="22.0" height="13.0" rx="3" fill="#6D28D9" stroke="none" stroke-width="0"/>
+<rect x="186.0" y="461.0" width="22.0" height="13.0" rx="3" fill="#6D28D9" stroke="none" stroke-width="0"/>
+<rect x="212.0" y="478.0" width="22.0" height="13.0" rx="3" fill="#6D28D9" stroke="none" stroke-width="0"/>
+<rect x="238.0" y="529.0" width="22.0" height="13.0" rx="3" fill="#6D28D9" stroke="none" stroke-width="0"/>
+<text x="171.0" y="592.0" font-size="10" fill="#6D28D9" font-weight="700" text-anchor="middle" dominant-baseline="central">Costas pattern 3 1 4 0 6 5 2 (time →)</text>
+<text x="400.0" y="450.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">The Costas pattern never repeats a tone and never repeats a step,</text>
+<text x="400.0" y="466.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">so it only lines up with itself at one exact time and frequency.</text>
+<text x="400.0" y="482.0" font-size="11" fill="#2b2b29" font-weight="400" text-anchor="start" dominant-baseline="central">That is what the Sync Search looks for, three times per transmission.</text>
+<text x="400.0" y="514.0" font-size="11" fill="#2b2b29" font-weight="600" text-anchor="start" dominant-baseline="central">Each data symbol sends 3 bits as one of the 8 tones (Gray code):</text>
+<rect x="400.0" y="526.0" width="78.0" height="22.0" rx="4" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1"/>
+<text x="439.0" y="537.0" font-size="10" fill="#0F6E56" font-weight="600" text-anchor="middle" dominant-baseline="central" font-family="Consolas, monospace">000→0</text>
+<rect x="486.0" y="526.0" width="78.0" height="22.0" rx="4" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1"/>
+<text x="525.0" y="537.0" font-size="10" fill="#0F6E56" font-weight="600" text-anchor="middle" dominant-baseline="central" font-family="Consolas, monospace">001→1</text>
+<rect x="572.0" y="526.0" width="78.0" height="22.0" rx="4" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1"/>
+<text x="611.0" y="537.0" font-size="10" fill="#0F6E56" font-weight="600" text-anchor="middle" dominant-baseline="central" font-family="Consolas, monospace">010→3</text>
+<rect x="658.0" y="526.0" width="78.0" height="22.0" rx="4" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1"/>
+<text x="697.0" y="537.0" font-size="10" fill="#0F6E56" font-weight="600" text-anchor="middle" dominant-baseline="central" font-family="Consolas, monospace">011→2</text>
+<rect x="744.0" y="526.0" width="78.0" height="22.0" rx="4" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1"/>
+<text x="783.0" y="537.0" font-size="10" fill="#0F6E56" font-weight="600" text-anchor="middle" dominant-baseline="central" font-family="Consolas, monospace">100→5</text>
+<rect x="830.0" y="526.0" width="78.0" height="22.0" rx="4" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1"/>
+<text x="869.0" y="537.0" font-size="10" fill="#0F6E56" font-weight="600" text-anchor="middle" dominant-baseline="central" font-family="Consolas, monospace">101→6</text>
+<rect x="916.0" y="526.0" width="78.0" height="22.0" rx="4" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1"/>
+<text x="955.0" y="537.0" font-size="10" fill="#0F6E56" font-weight="600" text-anchor="middle" dominant-baseline="central" font-family="Consolas, monospace">110→4</text>
+<rect x="1002.0" y="526.0" width="78.0" height="22.0" rx="4" fill="#E3F2EC" stroke="#0F6E56" stroke-width="1"/>
+<text x="1041.0" y="537.0" font-size="10" fill="#0F6E56" font-weight="600" text-anchor="middle" dominant-baseline="central" font-family="Consolas, monospace">111→7</text>
+<text x="400.0" y="566.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">Neighbouring tones differ by one bit, so a tone read one step off costs one bit, not three.</text>
+<text x="400.0" y="590.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">Bandwidth 50 Hz, 6.25 baud, GFSK (smoothed) tone changes. Dozens of these fit side by side</text>
+<text x="400.0" y="604.0" font-size="10" fill="#6b6b66" font-weight="400" text-anchor="start" dominant-baseline="central">in a radio's 3 kHz passband, and that is exactly what the decoder has to untangle.</text>
+</svg>
